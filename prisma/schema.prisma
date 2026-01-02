@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  CANDIDATE
+  RECRUITER
+  ADMIN
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum InterviewStatus {
+  DRAFT
+  STARTED
+  COMPLETED
+}
+
+enum SessionStatus {
+  WAITING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model User {
+  id       String   @id @default(cuid())
+  name     String
+  email    String   @unique
+  password String
+  role     UserRole @default(CANDIDATE)
+
+  image          String?
+
+  companyId String? // If user is a recruiter
+  company   Company? @relation(fields: [companyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions InterviewSession[]
+}
+
+model Company {
+  id       String @id @default(cuid())
+  name     String
+  description String?
+  website     String?
+  logo          String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  recruiters User[] // Employees of the company
+  jobs       Job[]
+}
+
+model Job {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  isPublic    Boolean  @default(false)
+  
+  status        InterviewStatus @default(DRAFT)
+  interviewLink String?
+
+  companyId   String
+  company  Company            @relation(fields: [companyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions InterviewSession[]
+}
+
+
+
+model InterviewSession {
+  id String @id @default(cuid())
+
+  candidateId String
+  candidate   User @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  status     SessionStatus @default(WAITING)
+  
+  jobId String
+  job       Job       @relation(fields: [jobId], references: [id])
+
+  totalScore Float?
+  feedback   String?  
+
+  resumeUrl      String?
+  resumeText String?
+  resumeFileName String?
+
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  questions Question[]
+
+  @@index([candidateId])
+  @@index([jobId])
+}
+
+
+model Question {
+  id        String           @id @default(cuid())
+
+  sessionId String
+  session   InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  content     String   @db.Text
+  difficulty  Difficulty
+  orderIndex  Int   
+  timeLimit   Int
+
+  answerText      String? @db.Text
+  score      Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sessionId])
+}
