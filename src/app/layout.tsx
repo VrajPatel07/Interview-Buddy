@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui/sonner"
+import { ImageKitProvider } from '@imagekit/next';
+import AuthProvider from "@/providers/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,11 +27,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <main>{children}</main>
-          <Toaster />
-        </body>
-      </html>
+    <html lang="en">
+      <AuthProvider>
+        <ImageKitProvider urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT}>
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <main>
+              {children}
+              <Toaster />
+            </main>
+          </body>
+        </ImageKitProvider>
+      </AuthProvider>
+    </html>
   );
 }
