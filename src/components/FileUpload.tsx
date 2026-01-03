@@ -10,11 +10,12 @@ const imageExtensions = ["jpg", "jpeg", "png"];
 
 interface FileUploadParams {
     fileType : "IMAGE" | "PDF";
-    setFileURL? : any
+    setFileURL? : (url : string) => void;
+    setFileName? : (name : string) => void;
 }
 
 
-const FileUpload = ({fileType, setFileURL} : FileUploadParams) => {
+const FileUpload = ({fileType, setFileURL, setFileName} : FileUploadParams) => {
 
     // State to keep track of the current upload progress (percentage)
     const [progress, setProgress] = useState(0);
@@ -23,7 +24,7 @@ const FileUpload = ({fileType, setFileURL} : FileUploadParams) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Create an AbortController instance to provide an option to cancel the upload if needed.
-    const abortController = new AbortController();
+    const abortControllerRef = useRef(new AbortController());
 
     const authenticator = async () => {
         try {
@@ -62,7 +63,7 @@ const FileUpload = ({fileType, setFileURL} : FileUploadParams) => {
 
         // Extract the first file from the file input
         const file = fileInput.files[0];
-        const extension = file.name.split(".").at(-1) as string;
+        const extension = file.name.split(".").at(-1)?.toLowerCase() || "";
 
         if (fileType === "IMAGE") {
             if (!imageExtensions.includes(extension)) {
@@ -85,6 +86,7 @@ const FileUpload = ({fileType, setFileURL} : FileUploadParams) => {
         } 
         catch (authError) {
             console.error("Failed to authenticate for upload:", authError);
+            toast.error("Authentication failed");
             return;
         }
 
@@ -104,33 +106,46 @@ const FileUpload = ({fileType, setFileURL} : FileUploadParams) => {
                 onProgress: (event) => {
                     setProgress((event.loaded / event.total) * 100);
                 },
-                abortSignal: abortController.signal,
+                abortSignal: abortControllerRef.current.signal
             });
 
             const fileURL = uploadResponse.url;
-            setFileURL(fileURL);
+            
+            if (fileURL && setFileURL) {
+                setFileURL(fileURL);
+            }
+            if (setFileName) {
+                setFileName(file.name);
+            }
+
+            toast.success("File uploaded successfully");
+            setProgress(0);
 
             return;
 
         } 
         catch (error) {
-            // Handle specific error types provided by the ImageKit SDK.
             if (error instanceof ImageKitAbortError) {
                 console.error("Upload aborted:", error.reason);
+                toast.error("Upload cancelled");
             } 
             else if (error instanceof ImageKitInvalidRequestError) {
                 console.error("Invalid request:", error.message);
+                toast.error("Invalid request");
             } 
             else if (error instanceof ImageKitUploadNetworkError) {
                 console.error("Network error:", error.message);
+                toast.error("Network error occurred");
             } 
             else if (error instanceof ImageKitServerError) {
                 console.error("Server error:", error.message);
+                toast.error("Server error");
             } 
             else {
-                // Handle any other errors that may occur.
                 console.error("Upload error:", error);
+                toast.error("Upload failed");
             }
+            setProgress(0);
         }
 
     };
@@ -139,7 +154,7 @@ const FileUpload = ({fileType, setFileURL} : FileUploadParams) => {
     return (
         <>
             
-            <input type="file" ref={fileInputRef} />
+            <input type="file" ref={fileInputRef} accept={fileType === "IMAGE" ? "image/*" : ".pdf"} />
             
             <button type="button" onClick={handleUpload}>
                 Upload
