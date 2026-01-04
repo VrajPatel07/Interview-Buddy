@@ -12,27 +12,53 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: "Credentials",
       credentials: {
         email: { label: "email", type: "text" },
-        password: { label: "Password", type: "password" }
+        password: { label: "password", type: "password" },
+        role: { label: "role", type: "text" }
       },
       async authorize(credentials: any) {
         try {
-          const user = await prisma.user.findFirst({
-            where: {
-              email: credentials.email
+          if (credentials.role === "CANDIDATE") {
+
+            const candidate = await prisma.candidate.findFirst({
+              where: {
+                email: credentials.email
+              }
+            });
+
+            if (!candidate) {
+              throw new Error("User not found");
             }
-          });
 
-          if (!user) {
-            throw new Error("User not found");
+            const isPasswordCorrect = await bcrypt.compare(credentials.password, candidate.password);
+
+            if (!isPasswordCorrect) {
+              throw new Error("Invalid password");
+            }
+
+            return {...candidate, role : "CANDIDATE"};
+
           }
+          else {
 
-          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+            const company = await prisma.company.findFirst({
+              where: {
+                email: credentials.email
+              }
+            });
 
-          if (!isPasswordCorrect) {
-            throw new Error("Invalid password");
+            if (!company) {
+              throw new Error("User not found");
+            }
+
+            const isPasswordCorrect = await bcrypt.compare(credentials.password, company.password);
+
+            if (!isPasswordCorrect) {
+              throw new Error("Invalid password");
+            }
+
+            return {...company, role : "RECRUITER"};
+            
           }
-
-          return user;
         }
         catch (error) {
           NextResponse.json({ message: "Internal server error. Try again later." }, { status: 500 });
@@ -46,22 +72,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user?.id) {
-        token.id = user.id;
-        token.name = user.name;
+      if (user?.email) {
         token.email = user.email;
         token.role = user.role;
-        token.companyId = user.companyId || null;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session?.user && token?.id) {
-        session.user.id = token.id as string;
-        session.user.name = token.name as string;
+      if (session?.user && token?.email) {
         session.user.email = token.email as string;
         session.user.role = token.role as string;
-        session.user.companyId = (token.companyId as string | null) || null;
       }
       return session;
     }

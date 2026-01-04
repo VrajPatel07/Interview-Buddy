@@ -4,43 +4,59 @@ import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
     try {
-        const { name, email, password, companyId, role  } = await req.json();
-
-        const existingUserByEmail = await prisma.user.findUnique({
-            where: {
-                email: email
-            }
-        });
-
-        if (existingUserByEmail) {
-            return Response.json({ success: false, message: "User already exists" }, { status: 400 });
-        }
-    
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const { name, email, password, description, website, role } = await req.json();
 
         if (role == "CANDIDATE") {
-            await prisma.user.create({
-                data : {
+
+            const existingCandidateByEmail = await prisma.candidate.findUnique({
+                where: {
+                    email: email
+                }
+            });
+
+            if (existingCandidateByEmail) {
+                return Response.json({ success: false, message: "User already exists" }, { status: 400 });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            await prisma.candidate.create({
+                data: {
                     name,
                     email,
-                    password : hashedPassword,
-                    role
+                    password: hashedPassword
                 }
-            })
+            });
+            
         }
         else {
-            await prisma.user.create({
-                data : {
+            
+            const existingCompanyByEmail = await prisma.company.findUnique({
+                where: {
+                    email: email
+                }
+            });
+
+            if (existingCompanyByEmail) {
+                return Response.json({ success: false, message: "User already exists" }, { status: 400 });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            await prisma.company.create({
+                data: {
                     name,
                     email,
-                    password : hashedPassword,
-                    companyId,
-                    role
+                    password: hashedPassword,
+                    description,
+                    website
                 }
-            })
+            });
+
         }
 
         return Response.json({ success: true, message: "User registered successfully" }, { status: 200 });
+
     }
     catch (error) {
         return Response.json({ success: false, message: `Error while signup : ${error}` }, { status: 500 });

@@ -7,7 +7,7 @@ export async function GET() {
 
         const session = await auth();
 
-        if (!session || !session.user?.id) {
+        if (!session || !session.user?.email) {
             return Response.json(
                 { success: false, message: "Unauthorized" },
                 { status: 401 }
@@ -16,18 +16,18 @@ export async function GET() {
 
         if (session.user.role == "CANDIDATE") {
 
-            const user = await prisma.user.findUnique({
+            const candidate = await prisma.candidate.findUnique({
                 where: {
-                    id: session.user.id,
+                    email: session.user.email,
                 },
                 select: {
                     name: true,
                     email: true,
-                    image: true
+                    avatar: true
                 },
             });
 
-            if (!user) {
+            if (!candidate) {
                 return Response.json(
                     { success: false, message: "User not found" },
                     { status: 404 }
@@ -35,36 +35,31 @@ export async function GET() {
             }
 
             return Response.json(
-                { success: true, data: user },
+                { success: true, data: candidate },
                 { status: 200 }
             );
 
         }
         else {
-            const candidate = await prisma.user.findUnique({
+            const company = await prisma.company.findUnique({
                 where: {
-                    id: session.user.id,
-                },
-                select: {
-                    company: true
+                    email: session.user.email
                 }
             });
 
-            if (!candidate) {
+            if (!company) {
                 return Response.json(
                     { success: false, message: "Company not found" },
                     { status: 404 }
                 );
             }
 
-            const company = candidate.company;
-
             const companyDetails = {
-                companyId: company?.id,
-                companyName: company?.name,
-                companyDescription: company?.description,
-                companyWebsite: company?.website,
-                companyLogo: company?.logo
+                name: company.name,
+                email: company.email,
+                description: company.description,
+                website: company.website,
+                logo : company.logo
             }
 
             return Response.json(
@@ -90,7 +85,7 @@ export async function PUT(req: Request) {
 
         const session = await auth();
 
-        if (!session || !session.user?.id) {
+        if (!session || !session.user?.email) {
             return Response.json(
                 { success: false, message: "Unauthorized" },
                 { status: 401 }
@@ -99,18 +94,18 @@ export async function PUT(req: Request) {
 
         if (session.user.role == "CANDIDATE") {
 
-            const { name, email, image } = await req.json();
+            const { name, email, avatar } = await req.json();
 
-            const user = await prisma.user.update({
+            const candidate = await prisma.candidate.update({
                 where: {
-                    id: session.user.id,
+                    email: session.user.email,
                 },
                 data: {
-                    name, email, image
+                    name, email, avatar
                 }
             });
 
-            if (!user) {
+            if (!candidate) {
                 return Response.json(
                     { success: false, message: "User not found" },
                     { status: 404 }
@@ -124,35 +119,15 @@ export async function PUT(req: Request) {
 
         }
         else {
-            const candidate = await prisma.user.findUnique({
-                where: {
-                    id: session.user.id,
-                },
-                select: {
-                    companyId: true
-                }
-            });
 
-            if (!candidate) {
-                return Response.json(
-                    { success: false, message: "Company not found" },
-                    { status: 404 }
-                );
-            }
-
-            const companyId = candidate.companyId;
-
-            const { companyName, companyDescription, companyWebsite, companyLogo } = await req.json();
+            const { name, email, description, logo, website } = await req.json();
 
             const company = await prisma.company.update({
                 where: {
-                    id: companyId as string
+                    email: session.user.email
                 },
-                data: {
-                    name: companyName,
-                    description: companyDescription,
-                    website: companyWebsite,
-                    logo: companyLogo
+                data : {
+                    name, email, description, logo, website
                 }
             });
 

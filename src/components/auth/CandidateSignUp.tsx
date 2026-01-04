@@ -49,7 +49,7 @@ export default function CandidateSignUp() {
                 name: data.name,
                 email: data.email,
                 password: data.password,
-                role: "CANDIDATE",
+                role: "CANDIDATE"
             })
 
             if (response.data.success) {

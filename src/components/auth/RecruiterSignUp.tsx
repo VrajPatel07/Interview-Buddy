@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 
 import { recruiterSignUpSchema } from "@/schemas/recruiter-signup-schema"
 import { cn } from "@/lib/utils"
@@ -34,9 +33,8 @@ export default function RecruiterSignUp() {
             email: "",
             password: "",
             confirmPassword: "",
-            companyName: "",
-            companyDescription: "",
-            companyWebsite: ""
+            description: "",
+            website: ""
         }
     })
 
@@ -44,26 +42,14 @@ export default function RecruiterSignUp() {
         try {
             setIsLoading(true)
 
-            const companyRes = await axios.post("/api/create-company", {
-                companyName: data.companyName,
-                companyDescription: data.companyDescription,
-                companyWebsite: data.companyWebsite,
-                email: data.email
-            })
-
-            const companyId = companyRes.data?.data?.companyId
-
-            if (!companyId) {
-                throw new Error("Company creation failed")
-            }
-
             const response = await axios.post("/api/sign-up", {
                 name: data.name,
                 email: data.email,
                 password: data.password,
-                role: "RECRUITER",
-                companyId
-            })
+                description: data.description,
+                website: data.website,
+                role: "RECRUITER"
+            });
 
             if (response.data.success) {
                 toast.success("Account created successfully!")
@@ -100,27 +86,52 @@ export default function RecruiterSignUp() {
                     onSubmit={form.handleSubmit(submitHandler)}
                     className={cn("space-y-6", isLoading && "opacity-70 pointer-events-none")}
                 >
-                    {/* Personal Info Section */}
-                    <div className="space-y-2">
-                        <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
-                            Your Information
-                        </h3>
+                    <div className="pt-2 space-y-4">
                         <div className="grid gap-4">
 
-                            {/* Name Field */}
+                            {/* Company Name Field */}
                             <Controller
                                 name="name"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
                                         <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
-                                            Recruiter Name
+                                            Company Name
                                         </FieldLabel>
                                         <Input
                                             {...field}
-                                            placeholder="John Doe"
-                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
+                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                                         />
+                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )}
+                            />
+
+                            {/* Company Email Field */}
+                            <Controller
+                                name="email"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel className="text-zinc-300 text-xs font-medium block mb-1.5">
+                                            Candidate Email
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            type="email"
+                                            placeholder="name@example.com"
+                                            className={cn(
+                                                "bg-zinc-950/50 border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all",
+                                                fieldState.invalid && "border-red-500 focus:border-red-500"
+                                            )}
+                                        />
+
+                                        {/* Warning Message */}
+                                        <p className="text-[11px] text-amber-500/90 flex items-center gap-1.5 mt-1.5 font-medium">
+                                            <AlertTriangle className="w-3 h-3" />
+                                            Note: This email address cannot be changed later.
+                                        </p>
+
                                         {fieldState.error && <FieldError errors={[fieldState.error]} />}
                                     </Field>
                                 )}
@@ -165,71 +176,10 @@ export default function RecruiterSignUp() {
                                     </Field>
                                 )}
                             />
-                        </div>
-                    </div>
-
-                    {/* Company Info Section */}
-                    <div className="pt-2 space-y-4">
-                        <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider flex items-center gap-2">
-                            Company Information
-                        </h3>
-                        <div className="grid gap-4">
-
-                            {/* Company Name Field */}
-                            <Controller
-                                name="companyName"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
-                                            Company Name
-                                        </FieldLabel>
-                                        <Input
-                                            {...field}
-                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
-                                        />
-
-                                        {/* Warning Message */}
-                                        <p className="text-[11px] text-amber-500/90 flex items-center gap-1.5 mt-1.5 font-medium">
-                                            <AlertTriangle className="w-3 h-3" />
-                                            Note: Company name cannot be changed later.
-                                        </p>
-
-                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
-                                    </Field>
-                                )}
-                            />
-
-                            {/* Company Email Field */}
-                            <Controller
-                                name="email"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
-                                            Company Email
-                                        </FieldLabel>
-                                        <Input
-                                            {...field}
-                                            type="email"
-                                            placeholder="name@company.com"
-                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
-                                        />
-
-                                        {/* Warning Message */}
-                                        <p className="text-[11px] text-amber-500/90 flex items-center gap-1.5 mt-1.5 font-medium">
-                                            <AlertTriangle className="w-3 h-3" />
-                                            Note: This email cannot be changed later.
-                                        </p>
-
-                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
-                                    </Field>
-                                )}
-                            />
 
                             {/* Company Website Field */}
                             <Controller
-                                name="companyWebsite"
+                                name="website"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
@@ -241,13 +191,6 @@ export default function RecruiterSignUp() {
                                             placeholder="https://"
                                             className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
                                         />
-
-                                        {/* Warning Message */}
-                                        <p className="text-[11px] text-amber-500/90 flex items-center gap-1.5 mt-1.5 font-medium">
-                                            <AlertTriangle className="w-3 h-3" />
-                                            Note: Website URL cannot be changed later.
-                                        </p>
-
                                         {fieldState.error && <FieldError errors={[fieldState.error]} />}
                                     </Field>
                                 )}
@@ -255,17 +198,17 @@ export default function RecruiterSignUp() {
 
                             {/* Description Field */}
                             <Controller
-                                name="companyDescription"
+                                name="description"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
                                         <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
-                                            Description
+                                            About Company
                                         </FieldLabel>
-                                        <Textarea
+                                        <textarea
                                             {...field}
-                                            rows={3}
-                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 resize-none focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
+                                            rows={4}
+                                            className="flex min-h-20 w-full rounded-md border border-zinc-800 bg-zinc-950/50 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
                                         />
                                         {fieldState.error && <FieldError errors={[fieldState.error]} />}
                                     </Field>
