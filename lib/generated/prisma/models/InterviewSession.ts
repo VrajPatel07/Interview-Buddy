@@ -280,7 +280,7 @@ export type InterviewSessionWhereInput = {
   completedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
-  candidate?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  candidate?: Prisma.XOR<Prisma.CandidateScalarRelationFilter, Prisma.CandidateWhereInput>
   job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>
   questions?: Prisma.QuestionListRelationFilter
 }
@@ -299,7 +299,7 @@ export type InterviewSessionOrderByWithRelationInput = {
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  candidate?: Prisma.UserOrderByWithRelationInput
+  candidate?: Prisma.CandidateOrderByWithRelationInput
   job?: Prisma.JobOrderByWithRelationInput
   questions?: Prisma.QuestionOrderByRelationAggregateInput
 }
@@ -321,7 +321,7 @@ export type InterviewSessionWhereUniqueInput = Prisma.AtLeast<{
   completedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
-  candidate?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  candidate?: Prisma.XOR<Prisma.CandidateScalarRelationFilter, Prisma.CandidateWhereInput>
   job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>
   questions?: Prisma.QuestionListRelationFilter
 }, "id">
@@ -378,7 +378,7 @@ export type InterviewSessionCreateInput = {
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  candidate: Prisma.UserCreateNestedOneWithoutSessionsInput
+  candidate: Prisma.CandidateCreateNestedOneWithoutSessionsInput
   job: Prisma.JobCreateNestedOneWithoutSessionsInput
   questions?: Prisma.QuestionCreateNestedManyWithoutSessionInput
 }
@@ -412,7 +412,7 @@ export type InterviewSessionUpdateInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  candidate?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  candidate?: Prisma.CandidateUpdateOneRequiredWithoutSessionsNestedInput
   job?: Prisma.JobUpdateOneRequiredWithoutSessionsNestedInput
   questions?: Prisma.QuestionUpdateManyWithoutSessionNestedInput
 }
@@ -754,7 +754,7 @@ export type InterviewSessionCreateWithoutJobInput = {
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  candidate: Prisma.UserCreateNestedOneWithoutSessionsInput
+  candidate: Prisma.CandidateCreateNestedOneWithoutSessionsInput
   questions?: Prisma.QuestionCreateNestedManyWithoutSessionInput
 }
 
@@ -812,7 +812,7 @@ export type InterviewSessionCreateWithoutQuestionsInput = {
   completedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  candidate: Prisma.UserCreateNestedOneWithoutSessionsInput
+  candidate: Prisma.CandidateCreateNestedOneWithoutSessionsInput
   job: Prisma.JobCreateNestedOneWithoutSessionsInput
 }
 
@@ -860,7 +860,7 @@ export type InterviewSessionUpdateWithoutQuestionsInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  candidate?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  candidate?: Prisma.CandidateUpdateOneRequiredWithoutSessionsNestedInput
   job?: Prisma.JobUpdateOneRequiredWithoutSessionsNestedInput
 }
 
@@ -969,7 +969,7 @@ export type InterviewSessionUpdateWithoutJobInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  candidate?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  candidate?: Prisma.CandidateUpdateOneRequiredWithoutSessionsNestedInput
   questions?: Prisma.QuestionUpdateManyWithoutSessionNestedInput
 }
 
@@ -1049,7 +1049,7 @@ export type InterviewSessionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  candidate?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   questions?: boolean | Prisma.InterviewSession$questionsArgs<ExtArgs>
   _count?: boolean | Prisma.InterviewSessionCountOutputTypeDefaultArgs<ExtArgs>
@@ -1069,7 +1069,7 @@ export type InterviewSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  candidate?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["interviewSession"]>
 
@@ -1087,7 +1087,7 @@ export type InterviewSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  candidate?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["interviewSession"]>
 
@@ -1109,24 +1109,24 @@ export type InterviewSessionSelectScalar = {
 
 export type InterviewSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "candidateId" | "status" | "jobId" | "totalScore" | "feedback" | "resumeUrl" | "resumeText" | "resumeFileName" | "startedAt" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["interviewSession"]>
 export type InterviewSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  candidate?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   questions?: boolean | Prisma.InterviewSession$questionsArgs<ExtArgs>
   _count?: boolean | Prisma.InterviewSessionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type InterviewSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  candidate?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }
 export type InterviewSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  candidate?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }
 
 export type $InterviewSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InterviewSession"
   objects: {
-    candidate: Prisma.$UserPayload<ExtArgs>
+    candidate: Prisma.$CandidatePayload<ExtArgs>
     job: Prisma.$JobPayload<ExtArgs>
     questions: Prisma.$QuestionPayload<ExtArgs>[]
   }
@@ -1538,7 +1538,7 @@ readonly fields: InterviewSessionFieldRefs;
  */
 export interface Prisma__InterviewSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  candidate<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  candidate<T extends Prisma.CandidateDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CandidateDefaultArgs<ExtArgs>>): Prisma.Prisma__CandidateClient<runtime.Types.Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   job<T extends Prisma.JobDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JobDefaultArgs<ExtArgs>>): Prisma.Prisma__JobClient<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   questions<T extends Prisma.InterviewSession$questionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewSession$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**

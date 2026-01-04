@@ -9,15 +9,6 @@
 * 🟢 You can import this file directly.
 */
 
-export const UserRole = {
-  CANDIDATE: 'CANDIDATE',
-  RECRUITER: 'RECRUITER',
-  ADMIN: 'ADMIN'
-} as const
-
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-
 export const Difficulty = {
   EASY: 'EASY',
   MEDIUM: 'MEDIUM',
@@ -27,13 +18,13 @@ export const Difficulty = {
 export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty]
 
 
-export const InterviewStatus = {
+export const JobStatus = {
   DRAFT: 'DRAFT',
   STARTED: 'STARTED',
   COMPLETED: 'COMPLETED'
 } as const
 
-export type InterviewStatus = (typeof InterviewStatus)[keyof typeof InterviewStatus]
+export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus]
 
 
 export const SessionStatus = {

@@ -13,11 +13,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum UserRole {
-  CANDIDATE
-  RECRUITER
-  ADMIN
-}
 
 enum Difficulty {
   EASY
@@ -25,7 +20,7 @@ enum Difficulty {
   HARD
 }
 
-enum InterviewStatus {
+enum JobStatus {
   DRAFT
   STARTED
   COMPLETED
@@ -37,17 +32,12 @@ enum SessionStatus {
   COMPLETED
 }
 
-model User {
+model Candidate {
   id       String   @id @default(cuid())
   name     String
   email    String   @unique
   password String
-  role     UserRole @default(CANDIDATE)
-
-  image          String?
-
-  companyId String? // If user is a recruiter
-  company   Company? @relation(fields: [companyId], references: [id])
+  avatar   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -56,30 +46,31 @@ model User {
 }
 
 model Company {
-  id       String @id @default(cuid())
-  name     String
+  id          String  @id @default(cuid())
+  name        String
+  email       String  @unique
+  password    String
   description String?
   website     String?
-  logo          String?
+  logo        String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  recruiters User[] // Employees of the company
-  jobs       Job[]
+  jobs Job[]
 }
 
 model Job {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String
-  isPublic    Boolean  @default(false)
-  
-  status        InterviewStatus @default(DRAFT)
+  isPublic    Boolean @default(false)
+
+  status        JobStatus @default(DRAFT)
   interviewLink String?
 
-  companyId   String
-  company  Company            @relation(fields: [companyId], references: [id])
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -87,24 +78,22 @@ model Job {
   sessions InterviewSession[]
 }
 
-
-
 model InterviewSession {
   id String @id @default(cuid())
 
   candidateId String
-  candidate   User @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
 
-  status     SessionStatus @default(WAITING)
-  
+  status SessionStatus @default(WAITING)
+
   jobId String
-  job       Job       @relation(fields: [jobId], references: [id])
+  job   Job    @relation(fields: [jobId], references: [id])
 
   totalScore Float?
-  feedback   String?  
+  feedback   String?
 
   resumeUrl      String?
-  resumeText String?
+  resumeText     String?
   resumeFileName String?
 
   startedAt   DateTime?
@@ -119,19 +108,18 @@ model InterviewSession {
   @@index([jobId])
 }
 
-
 model Question {
-  id        String           @id @default(cuid())
+  id String @id @default(cuid())
 
   sessionId String
   session   InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
-  content     String   @db.Text
-  difficulty  Difficulty
-  orderIndex  Int   
-  timeLimit   Int
+  content    String     @db.Text
+  difficulty Difficulty
+  orderIndex Int
+  timeLimit  Int
 
-  answerText      String? @db.Text
+  answerText String? @db.Text
   score      Float?
 
   createdAt DateTime @default(now())
