@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 
-import { Loader2, Building2 } from "lucide-react"
+import { Loader2, Building2, AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
@@ -102,31 +102,69 @@ export default function RecruiterSignUp() {
                 >
                     {/* Personal Info Section */}
                     <div className="space-y-2">
-                        <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider"> Your Information </h3>
+                        <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                            Your Information
+                        </h3>
                         <div className="grid gap-4">
-                            {["name", "password", "confirmPassword"].map((fieldName) => (
-                                <Controller
-                                    key = {fieldName}
-                                    name = {fieldName as any}
-                                    control = {form.control}
-                                    render = {({ field, fieldState }) => (
-                                        <Field data-invalid = {fieldState.invalid}>
-                                            <FieldLabel className = "text-zinc-300 text-xs font-medium capitalize mb-1.5 block">
-                                                {
-                                                    fieldName.replace("confirmPassword", "Confirm Password")
-                                                    .replace("name", "Recruiter Name")
-                                                }
-                                            </FieldLabel>
-                                            <Input
-                                                {...field}
-                                                type = {fieldName === "password" || fieldName === "confirmPassword" ? "password" : "text"}
-                                                className = "bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
-                                            />
-                                            { fieldState.error && ( <FieldError errors={[fieldState.error]} /> ) }
-                                        </Field>
-                                    )}
-                                />
-                            ))}
+
+                            {/* Name Field */}
+                            <Controller
+                                name="name"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
+                                            Recruiter Name
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            placeholder="John Doe"
+                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
+                                        />
+                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )}
+                            />
+
+                            {/* Password Field */}
+                            <Controller
+                                name="password"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
+                                            Password
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            type="password"
+                                            placeholder="••••••••"
+                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
+                                        />
+                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )}
+                            />
+
+                            {/* Confirm Password Field */}
+                            <Controller
+                                name="confirmPassword"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
+                                            Confirm Password
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            type="password"
+                                            placeholder="••••••••"
+                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
+                                        />
+                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
+                                    </Field>
+                                )}
+                            />
                         </div>
                     </div>
 
@@ -136,64 +174,100 @@ export default function RecruiterSignUp() {
                             Company Information
                         </h3>
                         <div className="grid gap-4">
+
+                            {/* Company Name Field */}
                             <Controller
-                                name = "companyName"
-                                control = {form.control}
-                                render = {({ field, fieldState }) => (
+                                name="companyName"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">Company Name</FieldLabel>
-                                        <Input 
-                                            {...field} 
-                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500" 
+                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
+                                            Company Name
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                                         />
-                                        {fieldState.error && <FieldError errors = {[fieldState.error]} />}
+
+                                        {/* Warning Message */}
+                                        <p className="text-[11px] text-amber-500/90 flex items-center gap-1.5 mt-1.5 font-medium">
+                                            <AlertTriangle className="w-3 h-3" />
+                                            Note: Company name cannot be changed later.
+                                        </p>
+
+                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
                                     </Field>
                                 )}
                             />
 
+                            {/* Company Email Field */}
                             <Controller
-                                name = "email"
-                                control = {form.control}
-                                render = {({ field, fieldState }) => (
+                                name="email"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">Company Email</FieldLabel>
-                                        <Input 
-                                            {...field} 
-                                            className = "bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500" 
-                                            placeholder = "name@example.com"
+                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
+                                            Company Email
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            type="email"
+                                            placeholder="name@company.com"
+                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
                                         />
-                                        {fieldState.error && <FieldError errors = {[fieldState.error]} />}
+
+                                        {/* Warning Message */}
+                                        <p className="text-[11px] text-amber-500/90 flex items-center gap-1.5 mt-1.5 font-medium">
+                                            <AlertTriangle className="w-3 h-3" />
+                                            Note: This email cannot be changed later.
+                                        </p>
+
+                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
                                     </Field>
                                 )}
                             />
 
+                            {/* Company Website Field */}
                             <Controller
-                                name = "companyWebsite"
-                                control = {form.control}
-                                render = {({ field, fieldState }) => (
-                                    <Field data-invalid = {fieldState.invalid}>
-                                        <FieldLabel className = "text-zinc-300 text-xs font-medium mb-1.5 block">Company Website</FieldLabel>
-                                        <Input {...field} 
-                                            placeholder = "https://" 
-                                            className = "bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500" 
+                                name="companyWebsite"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
+                                            Company Website
+                                        </FieldLabel>
+                                        <Input
+                                            {...field}
+                                            placeholder="https://"
+                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
                                         />
-                                        {fieldState.error && <FieldError errors = {[fieldState.error]} />}
+
+                                        {/* Warning Message */}
+                                        <p className="text-[11px] text-amber-500/90 flex items-center gap-1.5 mt-1.5 font-medium">
+                                            <AlertTriangle className="w-3 h-3" />
+                                            Note: Website URL cannot be changed later.
+                                        </p>
+
+                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
                                     </Field>
                                 )}
                             />
 
+                            {/* Description Field */}
                             <Controller
-                                name = "companyDescription"
-                                control = {form.control}
-                                render = {({ field, fieldState }) => (
-                                    <Field data-invalid = {fieldState.invalid}>
-                                        <FieldLabel className = "text-zinc-300 text-xs font-medium mb-1.5 block">Description</FieldLabel>
+                                name="companyDescription"
+                                control={form.control}
+                                render={({ field, fieldState }) => (
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel className="text-zinc-300 text-xs font-medium mb-1.5 block">
+                                            Description
+                                        </FieldLabel>
                                         <Textarea
                                             {...field}
-                                            rows = {3}
-                                            className = "bg-zinc-950/50 border-zinc-800 text-zinc-100 resize-none focus:ring-indigo-500/20 focus:border-indigo-500"
+                                            rows={3}
+                                            className="bg-zinc-950/50 border-zinc-800 text-zinc-100 resize-none focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-zinc-600"
                                         />
-                                        {fieldState.error && <FieldError errors = {[fieldState.error]} />}
+                                        {fieldState.error && <FieldError errors={[fieldState.error]} />}
                                     </Field>
                                 )}
                             />
@@ -204,10 +278,10 @@ export default function RecruiterSignUp() {
 
             <CardFooter className="flex flex-col gap-3 border-t border-zinc-800/50 pt-6">
                 <Button
-                    type = "submit"
-                    form = "recruiter-signup-form"
-                    disabled = {isLoading}
-                    className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-6 transition-all shadow-[0_0_20px_-5px_rgba(79,70,229,0.3)] hover:shadow-[0_0_25px_-5px_rgba(79,70,229,0.5)] cursor-pointer"
+                    type="submit"
+                    form="recruiter-signup-form"
+                    disabled={isLoading}
+                    className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-6 transition-all shadow-[0_0_20px_-5px_rgba(79,70,229,0.3)] hover:shadow-[0_0_25px_-5px_rgba(79,70,229,0.5)] cursor-pointer"
                 >
                     {
                         isLoading ? (
@@ -221,7 +295,7 @@ export default function RecruiterSignUp() {
 
                 <div className="text-center text-sm text-zinc-500">
                     Already have an account?{" "}
-                    <Link href = "/sign-in" className = "text-indigo-400 hover:text-indigo-300 transition-colors font-medium">
+                    <Link href="/sign-in" className="text-indigo-400 hover:text-indigo-300 transition-colors font-medium">
                         Sign in
                     </Link>
                 </div>
