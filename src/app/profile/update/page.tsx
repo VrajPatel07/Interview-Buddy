@@ -1,21 +1,27 @@
-"use client";
+import { auth } from "@/auth"
+import prisma from "@/lib/prisma"
+import UpdateCandidateProfile from "@/components/profile/UpdateCandidateProfile"
+import UpdateRecruiterProfile from "@/components/profile/UpdateRecruiterProfile"
 
-import UpdateCandidateProfile from "@/components/profile/UpdateCandidateProfile";
-import UpdateRecruiterProfile from "@/components/profile/UpdateRecruiterProfile";
-import { useSession } from "next-auth/react";
+export default async function UpdateUserProfile() {
 
-export default function UpdateUserProfile () {
+    const session = await auth()
 
-    const { data : session } = useSession();
+    if (!session?.user?.id) return null
 
-    return (
-        <div>
-            {session?.user.role === "CANDIDATE" ? (
-                <UpdateCandidateProfile />
-            ) : (
-                <UpdateRecruiterProfile />
-            )}
-        </div>
-    );
+    if (session.user.role === "CANDIDATE") {
 
+        const user = await prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { name: true, email: true, image: true }
+        })
+
+        if (!user) {
+            return null;
+        }
+
+        return <UpdateCandidateProfile user={{...user, image : user.image ?? ""}} />
+    }
+
+    return <UpdateRecruiterProfile />
 }
