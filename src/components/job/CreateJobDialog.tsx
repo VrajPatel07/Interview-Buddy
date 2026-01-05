@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import CreateJob from "./CreateJob";
 
 export default function CreateJobDialog() {
@@ -13,20 +14,23 @@ export default function CreateJobDialog() {
         <Dialog open={open} onOpenChange={setOpen}>
 
             <DialogTrigger asChild>
-                <Button>Create Job</Button>
+                <Button className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 transition-all">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Create Job
+                </Button>
             </DialogTrigger>
 
-            <DialogContent>
-                
+            <DialogContent className="bg-zinc-950 border-zinc-800 text-zinc-100 sm:max-w-lg">
+
                 <DialogHeader>
-                    <DialogTitle>Create Job</DialogTitle>
-                    <DialogDescription>
-                        Create a new job and start hiring
+                    <DialogTitle className="text-xl font-semibold">Create New Job</DialogTitle>
+                    <DialogDescription className="text-zinc-400">
+                        Fill in the details below to post a new opening.
                     </DialogDescription>
                 </DialogHeader>
 
                 <CreateJob onSuccess={() => setOpen(false)} />
-
+                    
             </DialogContent>
 
         </Dialog>

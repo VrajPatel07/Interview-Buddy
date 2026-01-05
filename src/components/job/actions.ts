@@ -66,3 +66,23 @@ export async function createJobAction(data: unknown) {
     return { success: true };
 
 }
+
+
+
+export async function deleteJobAction(jobId: string) {
+
+    const session = await auth();
+
+    if (!session?.user?.id) {
+        throw new Error("Unauthorized");
+    }
+
+    await prisma.job.delete({
+        where: {
+            id: jobId
+        }
+    });
+
+    return { success: true };
+
+}
