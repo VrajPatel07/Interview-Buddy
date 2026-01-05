@@ -1,11 +1,9 @@
-import prisma  from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import JobCard from "@/components/job/JobCard";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { auth } from "@/auth";
+import CreateJobDialog from "@/components/job/CreateJobDialog";
 
 export default async function JobsPage() {
-
     const session = await auth();
 
     if (!session?.user?.id) {
@@ -23,9 +21,8 @@ export default async function JobsPage() {
 
     return (
         <div>
-            <Link href="/jobs/create">
-                <Button>Create Job</Button>
-            </Link>
+
+            <CreateJobDialog />
 
             {jobs.length === 0 && <p>No jobs found</p>}
 
@@ -34,6 +31,7 @@ export default async function JobsPage() {
                     <JobCard key={job.id} job={job} />
                 ))}
             </div>
+            
         </div>
     );
 }

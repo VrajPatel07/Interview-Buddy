@@ -7,12 +7,15 @@ import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader,
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { getRelativeTime } from "@/lib/relative-time";
+import { useState } from "react";
+import UpdateJob from "./UpdateJob";
 
 
 
 export default function JobCard({ job }: { job: any }) {
 
     const router = useRouter();
+    const [open, setOpen] = useState(false);
 
     const handleDelete = async () => {
         await axios.delete(`/api/job/${job.id}`);
@@ -34,13 +37,12 @@ export default function JobCard({ job }: { job: any }) {
 
             <CardFooter>
                 <Button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        router.push(`/jobs/update/${job.id}`);
-                    }}
+                    onClick={() => setOpen(true)}
                 >
                     Update
                 </Button>
+
+                <UpdateJob open={open} setOpen={setOpen} job={job} />
 
                 <AlertDialog>
 

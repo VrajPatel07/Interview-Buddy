@@ -1,10 +1,22 @@
-import { z } from "zod";
+import * as z from "zod";
 
 
-export const jobSchema = z.object({
-    title: z.string().nonempty({ message: "Job title is required" }).max(50, { message: "Job title should be of almost 50 characters" }),
-    description: z.string().max(5000, { message: "Job description should be of atmost 5000 characters" })
-})
+export const createJobSchema = z.object({
+    title: z
+        .string()
+        .nonempty("Job title is required")
+        .max(50, "Job title should be at most 50 characters"),
+
+    description: z
+        .string()
+        .nonempty("Job description is required")
+        .max(5000, "Job description should be at most 5000 characters"),
+});
+
+
+export const updateJobSchema = createJobSchema.extend({
+    status: z.enum(["DRAFT", "STARTED", "COMPLETED"]),
+});
 
 
 
@@ -25,7 +37,7 @@ export interface JobQuestion {
     content: string;
     orderIndex: number;
     timeLimit: number;
-    answerText?: string; 
+    answerText?: string;
     score?: number;
 }
 
