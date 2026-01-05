@@ -2,7 +2,8 @@ import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 
 
-export async function POST (req : Request) {
+
+export async function POST(req : Request) {
     try {
 
         const session = await auth();
@@ -14,23 +15,41 @@ export async function POST (req : Request) {
             );
         }
 
-        const {title, description} = await req.json();
+        const { title, description } = await req.json();
 
-        await prisma.job.create({
-            data : {
+        const domain = process.env.DOMAIN;
+
+        if (!domain) {
+            return Response.json(
+                { success: false, message: "DOMAIN not configured" },
+                { status: 500 }
+            );
+        }
+
+        const job = await prisma.job.create({
+            data: {
                 title,
                 description,
-                isPublic : false,
-                status : "DRAFT",
-                companyId : session.user.id
+                isPublic: false,
+                status: "DRAFT",
+                companyId: session.user.id
             }
         });
 
+        const interviewLink = `${domain}/interview/${job.id}`;
+
+        await prisma.job.update({
+            where: { id: job.id },
+            data: { interviewLink }
+        });
+
         return Response.json(
-            { success: true },
+            {
+                success: true
+            },
             { status: 200 }
         );
-    }
+    } 
     catch (error) {
         return Response.json(
             { success: false, message: `Error: ${error}` },
@@ -40,71 +59,69 @@ export async function POST (req : Request) {
 }
 
 
-export async function PUT(req: Request) {
-    try {
 
+export async function GET(req: Request) {
+    try {
         const session = await auth();
 
-        if (!session || !session.user?.email) {
+        if (!session || !session.user?.id) {
             return Response.json(
                 { success: false, message: "Unauthorized" },
                 { status: 401 }
             );
         }
 
-        if (session.user.role == "CANDIDATE") {
-
-            const { name, email, avatar } = await req.json();
-
-            const candidate = await prisma.candidate.update({
-                where: {
-                    email: session.user.email,
+        const jobs = await prisma.job.findMany({
+            where: {
+                companyId: session.user.id,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                status: true,
+                interviewLink: true,
+                createdAt: true,
+                updatedAt: true,
+                sessions: {
+                    select: {
+                        id: true,
+                        status: true,
+                        totalScore: true,
+                        feedback: true,
+                        resumeUrl: true,
+                        startedAt: true,
+                        completedAt: true,
+                        candidate: {
+                            select: {
+                                name: true,
+                                email: true,
+                            },
+                        },
+                        questions: {
+                            select: {
+                                content: true,
+                                orderIndex: true,
+                                timeLimit: true,
+                                answerText: true,
+                                score: true,
+                            },
+                            orderBy: {
+                                orderIndex: "asc",
+                            },
+                        },
+                    },
                 },
-                data: {
-                    name, email, avatar
-                }
-            });
+            },
+        });
 
-            if (!candidate) {
-                return Response.json(
-                    { success: false, message: "User not found" },
-                    { status: 404 }
-                );
-            }
-
-            return Response.json(
-                { success: true },
-                { status: 200 }
-            );
-
-        }
-        else {
-
-            const { name, email, description, logo, website } = await req.json();
-
-            const company = await prisma.company.update({
-                where: {
-                    email: session.user.email
-                },
-                data: {
-                    name, email, description, logo, website
-                }
-            });
-
-            if (!company) {
-                return Response.json(
-                    { success: false, message: "Company not found" },
-                    { status: 404 }
-                );
-            }
-
-            return Response.json(
-                { success: true },
-                { status: 200 }
-            );
-
-        }
-
+        return Response.json({
+            success: true,
+            data: jobs,
+        });
 
     }
     catch (error) {
