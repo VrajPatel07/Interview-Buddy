@@ -109,6 +109,7 @@ export const JobScalarFieldEnum = {
   isPublic: 'isPublic',
   status: 'status',
   interviewLink: 'interviewLink',
+  jobKey: 'jobKey',
   companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

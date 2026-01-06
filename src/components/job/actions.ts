@@ -52,14 +52,17 @@ export async function createJobAction(data: unknown) {
         throw new Error("DOMAIN not configured");
     }
 
-    const job = await prisma.job.create({
+    const jobKey = crypto.randomUUID();
+
+    await prisma.job.create({
         data: {
             title: parsed.title,
             description: parsed.description,
             status: "DRAFT",
             isPublic: false,
             companyId: session.user.id,
-            interviewLink: `${domain}/interview/${crypto.randomUUID()}`,
+            interviewLink: `${domain}/interview/${jobKey}`,
+            jobKey
         },
     });
 

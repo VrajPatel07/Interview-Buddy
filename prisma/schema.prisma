@@ -13,7 +13,6 @@ datasource db {
   provider = "postgresql"
 }
 
-
 enum Difficulty {
   EASY
   MEDIUM
@@ -33,9 +32,9 @@ enum SessionStatus {
 }
 
 model Candidate {
-  id       String   @id @default(cuid())
+  id       String  @id @default(cuid())
   name     String
-  email    String   @unique
+  email    String  @unique
   password String
   avatar   String?
 
@@ -68,6 +67,7 @@ model Job {
 
   status        JobStatus @default(DRAFT)
   interviewLink String?
+  jobKey        String?
 
   companyId String
   company   Company @relation(fields: [companyId], references: [id])

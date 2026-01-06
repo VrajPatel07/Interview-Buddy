@@ -60,7 +60,7 @@ export default function CandidateProfile({ candidate }: { candidate: CandidatePr
                             </div>
 
                             {/* Interactive Interviews Card */}
-                            <Link href="/interviews" className="block group">
+                            <Link href="/profile/interviews" className="block group">
                                 <div className="p-4 rounded-lg bg-zinc-950/50 border border-zinc-800/50 hover:border-indigo-500/50 hover:bg-zinc-900/80 transition-all cursor-pointer h-24 flex flex-col justify-between">
                                     <div className="flex justify-between items-start">
                                         <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider group-hover:text-indigo-400 transition-colors">
