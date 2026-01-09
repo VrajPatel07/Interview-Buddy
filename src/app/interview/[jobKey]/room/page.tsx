@@ -1,15 +1,13 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-// import InterviewRoomClient from "./_components/InterviewRoomClient";
-
+import InterviewRoomClient from "@/components/interview/InterviewRoomClient";
 
 
 
 export default async function InterviewRoomPage({ params }: { params: Promise<{ jobKey: string }> }) {
 
     const { jobKey } = await params;
-
     const session = await auth();
 
     if (!session?.user?.id) {
@@ -19,9 +17,7 @@ export default async function InterviewRoomPage({ params }: { params: Promise<{ 
     const interviewSession = await prisma.interviewSession.findFirst({
         where: {
             candidateId: session.user.id,
-            job: {
-                jobKey
-            }
+            job: { jobKey }
         },
         include: {
             questions: {
@@ -41,15 +37,12 @@ export default async function InterviewRoomPage({ params }: { params: Promise<{ 
         redirect(`/interview/${jobKey}/result`);
     }
 
-    console.log(interviewSession);
-
     return (
-        <div>
-            {/* <InterviewRoomClient
-            session={interviewSession}
-            interviewLink={params.interviewLink}
-        /> */}
-        <p>{interviewSession.id}</p>
+        <div className="min-h-screen w-full bg-zinc-950">
+            <InterviewRoomClient
+                session={interviewSession}
+                jobKey={jobKey}
+            />
         </div>
     );
 }

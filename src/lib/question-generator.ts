@@ -59,7 +59,8 @@ export async function generateQuestionsFromPDF(resumeUrl: string, jobTitle: stri
                 Requirements:
                 1. Question 1 MUST be "Introduce yourself and briefly walk through your experience relevant to this role."
                 2. Difficulty Distribution: 2 Easy, 2 Medium, 2 Hard, 1 Hard (Intro).
-                3. Questions must be specific to the candidate's actual projects listed in the resume.`
+                3. Questions must be specific to the candidate's actual projects listed in the resume.
+                4. If you found provided PDF file is not a candidate resume then ask questions according to job description.`
             },
             {
                 type: "media",

@@ -5,6 +5,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
 import { ImageKitProvider } from '@imagekit/next';
 import AuthProvider from "@/providers/AuthProvider";
+import { DeepgramContextProvider } from "@/providers/DeepgramContextProvider";
+import { MicrophoneContextProvider } from "@/providers/MicrophoneContextProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +34,9 @@ export default function RootLayout({
         <ImageKitProvider urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT}>
           <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             <main>
-              {children}
+              <MicrophoneContextProvider>
+                <DeepgramContextProvider>{children}</DeepgramContextProvider>
+              </MicrophoneContextProvider>
               <Toaster />
             </main>
           </body>
