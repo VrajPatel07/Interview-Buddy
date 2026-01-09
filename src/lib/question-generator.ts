@@ -1,21 +1,23 @@
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { z } from "zod";
+import { HumanMessage } from "@langchain/core/messages";
+import axios from "axios";
 
+export async function generateQuestionsFromPDF(resumeUrl: string, jobTitle: string, jobDescription: string) {
 
-const QuestionSchema = z.object({
-    content: z.string(),
-    difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
-    timeLimit: z.number()
-});
+    let base64Pdf = "";
+    try {
+        const response = await axios.get(resumeUrl, {
+            responseType: "arraybuffer"
+        });
+        base64Pdf = Buffer.from(response.data).toString("base64");
+    } 
+    catch (error) {
+        throw new Error("Failed to download resume for processing");
+    }
 
-
-type QuestionType = z.infer<typeof QuestionSchema>;
-
-
-export async function generateQuestions(resumeText: string, title: string, description: string): Promise<QuestionType[]> {
-
-    const llm = new ChatGoogleGenerativeAI({
-        model: "gemini-2.5-flash-lite"
+    const model = new ChatGoogleGenerativeAI({
+        model: "gemini-2.5-flash",
+        temperature: 0
     });
 
     const questionsJsonSchema = {
@@ -42,33 +44,33 @@ export async function generateQuestions(resumeText: string, title: string, descr
         required: ["questions"]
     };
 
-    const model = llm.withStructuredOutput(questionsJsonSchema);
+    const structuredModel = model.withStructuredOutput(questionsJsonSchema);
 
-    const prompt = `
-        Generate exactly 7 interview questions based on job title, job description and candidate resume.
+    const message = new HumanMessage({
+        content: [
+            {
+                type: "text",
+                text: `You are an expert technical interviewer.
+                Generate exactly 7 interview questions based on the following Job Description and the Candidate's Resume (attached).
 
-        Rules:
-        - First question must be "Introduce yourself"
-        - Difficulties:
-          - 2 EASY
-          - 2 MEDIUM
-          - 2 HARD
-          - 1 Introduce Yourself (HARD)
-        - Assign reasonable timeLimit (seconds)
-        - Use resume content for personalization
+                Job Title: ${jobTitle}
+                Job Description: ${jobDescription}
 
-        Resume:
-        ${resumeText}
+                Requirements:
+                1. Question 1 MUST be "Introduce yourself and briefly walk through your experience relevant to this role."
+                2. Difficulty Distribution: 2 Easy, 2 Medium, 2 Hard, 1 Hard (Intro).
+                3. Questions must be specific to the candidate's actual projects listed in the resume.`
+            },
+            {
+                type: "media",
+                mimeType: "application/pdf",
+                data: base64Pdf
+            }
+        ]
+    });
 
-        Job Title:
-        ${title}
+    const result = await structuredModel.invoke([message]);
 
-        Job Description:
-        ${description}
-    `;
+    return result.questions;
 
-    const response = await model.invoke(prompt) as { questions: QuestionType[] };
-
-    return response.questions;
-    
 }

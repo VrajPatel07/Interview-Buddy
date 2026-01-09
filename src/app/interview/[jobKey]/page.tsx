@@ -1,98 +1,82 @@
-"use client";
+import { auth } from "@/auth"
+import { redirect, notFound } from "next/navigation"
+import prisma from "@/lib/prisma" 
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+
+import InterviewLanding from "@/components/interview/InterviewLanding"
 
 
-import { use } from 'react';
-import { useState } from "react";
-import axios from "axios";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import FileUpload from "@/components/FileUpload";
-import InterviewSession from "@/components/interview/InterviewSession";
-import { useSession } from "next-auth/react";
 
+export default async function InterviewEntryPage({ params } : { params : Promise<{ jobKey: string }> }) {
+    
+    const session = await auth();
 
-export default function Interview({ params }: { params: Promise<{ jobKey: string }> }) {
+    const {jobKey} = await params;
 
-    const { data: session } = useSession();
+    if (!session?.user?.id) {
+        redirect("/sign-in");
+    }
 
-    const [resumeUrl, setResumeUrl] = useState<string | null>(null);
-    const [open, setOpen] = useState(true);
-    const [interviewSession, setInterviewSession] = useState<any>(null);
-    const [loading, setLoading] = useState(false);
-
-    const { jobKey } = use(params);
-
-
-    const handleCreateSession = async () => {
-        try {
-            if (!resumeUrl || !session?.user?.id) return;
-
-            setLoading(true);
-
-            const response = await axios.post("/api/interview", {
-                jobKey,
-                resumeUrl
-            });
-
-            if (response.data.success) {
-                setInterviewSession(response.data);
-            }
+    const job = await prisma.job.findFirst({
+        where: {
+            jobKey
+        },
+        include: {
+            company: true
         }
-        catch (error) {
-            console.log(error);
-        }
-        finally {
-            setLoading(false);
-        }
-    };
+    })
 
+    if (!job) {
+        return notFound();
+    }
+
+    if (job.status !== "STARTED") {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>Interview Unavailable</CardTitle>
+                    <CardDescription>
+                        This position is currently not accepting new interviews.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p> The job status is currently {job.status}. </p>
+                </CardContent>
+                <CardFooter>
+                    <Button asChild>
+                        <Link href="/profile">Return to Dashboard</Link>
+                    </Button>
+                </CardFooter>
+            </Card>
+        )
+    }
+
+    // Check if this specific user already has a session for this job
+    const existingSession = await prisma.interviewSession.findFirst({
+        where: {
+            candidateId : session.user.id,
+            jobId : job.id
+        },
+    })
+
+    if (existingSession) {
+
+        if (existingSession.status === "COMPLETED") {
+            redirect(`/interview/${jobKey}/result`)
+        }
+
+        if (existingSession.status === "IN_PROGRESS") {
+            redirect(`/interview/${jobKey}/room`)
+        }
+
+    }
 
     return (
-        <div>
-
-            <Dialog open={open}>
-                <DialogContent>
-
-                    <DialogHeader>
-                        <DialogTitle>Upload Resume</DialogTitle>
-                    </DialogHeader>
-
-                    <FileUpload
-                        fileType="PDF"
-                        setFileURL={(url) => setResumeUrl(url)}
-                    />
-
-                    <Button
-                        disabled={!resumeUrl}
-                        onClick={() => {
-                            setOpen(false);
-                            handleCreateSession();
-                        }}
-                    >
-                        Continue
-                    </Button>
-
-                </DialogContent>
-            </Dialog>
-
-            {!open && (
-                <>
-                    <div>
-                        <p>Speak slowly</p>
-                        <p>Read the question carefully</p>
-                        <p>Answer within given time</p>
-                    </div>
-
-                    <Button disabled={!interviewSession || loading}>
-                        Start Interview
-                    </Button>
-
-                    {interviewSession && (
-                        <InterviewSession interviewSession={interviewSession} />
-                    )}
-                </>
-            )}
-
-        </div>
+        <InterviewLanding
+            job = {job}
+            userId = {session.user.id}
+        />
     )
 }

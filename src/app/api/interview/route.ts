@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-import { extractResumeText } from "@/lib/resume-extractor";
-import { generateQuestions } from "@/lib/question-generator";
+import { generateQuestionsFromPDF } from "@/lib/question-generator";
+
+
+export const maxDuration = 60;
 
 
 type QuestionType = {
-    content: string;
-    difficulty: "EASY" | "MEDIUM" | "HARD";
-    timeLimit: number;
+    content : string;
+    difficulty : "EASY" | "MEDIUM" | "HARD";
+    timeLimit : number;
 }
 
 
@@ -17,35 +19,24 @@ export async function POST(req: Request) {
 
         const session = await auth();
 
-        if (!session || !session.user?.email) {
+        if (!session || !session.user?.email || !session.user?.id) {
             return NextResponse.json(
                 { success: false, message: "Unauthorized" },
                 { status: 401 }
             );
         }
 
-        const body = await req.json();
-        const { jobKey, resumeUrl } = body;
+        const { jobId, resumeUrl } = await req.json();
 
-        if (!jobKey || !resumeUrl) {
+        if (!jobId || !resumeUrl) {
             return NextResponse.json(
                 { success: false, message: "Missing required fields" },
                 { status: 400 }
             );
         }
 
-        try {
-            new URL(resumeUrl);
-        } 
-        catch {
-            return NextResponse.json(
-                { success: false, message: "Invalid resume URL" },
-                { status: 400 }
-            );
-        }
-
-        const job = await prisma.job.findFirst({
-            where: { jobKey }
+        const job = await prisma.job.findUnique({
+            where : { id : jobId }
         });
 
         if (!job) {
@@ -55,9 +46,9 @@ export async function POST(req: Request) {
             );
         }
 
-        if (job.status === "COMPLETED") {
+        if (job.status !== "STARTED") {
             return NextResponse.json(
-                { success: false, message: "Job expired" },
+                { success: false, message: "Job is not currently active" },
                 { status: 400 }
             );
         }
@@ -71,27 +62,15 @@ export async function POST(req: Request) {
 
         if (existingSession) {
             return NextResponse.json(
-                { success: false, message: "Interview session already exists for this job" },
-                { status: 409 }
+                { success: true, data: existingSession },
+                { status: 200 }
             );
         }
 
-        const resumeText = await extractResumeText(resumeUrl);
+        const questions = await generateQuestionsFromPDF(resumeUrl, job.title, job.description);
 
-        if (!resumeText || resumeText.trim().length === 0) {
-            return NextResponse.json(
-                { success: false, message: "Failed to extract text from resume" },
-                { status: 400 }
-            );
-        }
-
-        const questions = await generateQuestions(resumeText, job.title, job.description);
-
-        if (!questions || questions.length !== 7) {
-            return NextResponse.json(
-                { success: false, message: "Failed to generate questions" },
-                { status: 500 }
-            );
+        if (!questions || questions.length === 0) {
+            throw new Error("Failed to generate questions");
         }
 
         const interviewSession = await prisma.interviewSession.create({
@@ -99,7 +78,8 @@ export async function POST(req: Request) {
                 candidateId: session.user.id,
                 jobId: job.id,
                 resumeUrl,
-                resumeText,
+                // resumeText: safeResumeText,
+                status: "IN_PROGRESS",
                 questions: {
                     create: questions.map((q: QuestionType, index: number) => ({
                         content: q.content,
@@ -109,26 +89,9 @@ export async function POST(req: Request) {
                     }))
                 }
             },
-            include: {
-                candidate: {
-                    select: {
-                        id: true,
-                        name: true,
-                        email: true
-                    }
-                },
-                job: {
-                    select: {
-                        id: true,
-                        title: true,
-                        description: true
-                    }
-                },
-                questions: {
-                    orderBy: {
-                        orderIndex: 'asc'
-                    }
-                }
+            select: {
+                id: true,
+                status: true
             }
         });
 
@@ -139,29 +102,9 @@ export async function POST(req: Request) {
 
     } 
     catch (error) {
-        
-        console.error("Error creating interview session:", error);
-
-        // Provide more specific error messages
-        if (error instanceof Error) {
-            if (error.message.includes("resume")) {
-                return NextResponse.json(
-                    { success: false, message: "Failed to process resume" },
-                    { status: 400 }
-                );
-            }
-            if (error.message.includes("generate")) {
-                return NextResponse.json(
-                    { success: false, message: "Failed to generate questions" },
-                    { status: 500 }
-                );
-            }
-        }
-
         return NextResponse.json(
-            { success: false, message: "Internal Server Error" },
+            { success: false, message: error instanceof Error ? error.message : "Internal Server Error" },
             { status: 500 }
         );
-
     }
 }
