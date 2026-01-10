@@ -109,7 +109,7 @@ export default function JobCard({ job }: { job: any }) {
 
                 <Button
                     variant="link"
-                    className="text-zinc-400 hover:text-white p-0 h-auto font-normal text-xs flex items-center gap-1"
+                    className="text-zinc-400 cursor-pointer hover:text-white p-0 h-auto font-normal text-xs flex items-center gap-1"
                     onClick={() => router.push(`/jobs/${job.id}`)}
                 >
                     View Details <ChevronRight className="w-3 h-3" />
