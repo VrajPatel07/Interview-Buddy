@@ -42,12 +42,8 @@ export type InterviewSessionMinAggregateOutputType = {
   totalScore: number | null
   feedback: string | null
   resumeUrl: string | null
-  resumeText: string | null
-  resumeFileName: string | null
-  startedAt: Date | null
-  completedAt: Date | null
-  createdAt: Date | null
   updatedAt: Date | null
+  createdAt: Date | null
 }
 
 export type InterviewSessionMaxAggregateOutputType = {
@@ -58,12 +54,8 @@ export type InterviewSessionMaxAggregateOutputType = {
   totalScore: number | null
   feedback: string | null
   resumeUrl: string | null
-  resumeText: string | null
-  resumeFileName: string | null
-  startedAt: Date | null
-  completedAt: Date | null
-  createdAt: Date | null
   updatedAt: Date | null
+  createdAt: Date | null
 }
 
 export type InterviewSessionCountAggregateOutputType = {
@@ -74,12 +66,8 @@ export type InterviewSessionCountAggregateOutputType = {
   totalScore: number
   feedback: number
   resumeUrl: number
-  resumeText: number
-  resumeFileName: number
-  startedAt: number
-  completedAt: number
-  createdAt: number
   updatedAt: number
+  createdAt: number
   _all: number
 }
 
@@ -100,12 +88,8 @@ export type InterviewSessionMinAggregateInputType = {
   totalScore?: true
   feedback?: true
   resumeUrl?: true
-  resumeText?: true
-  resumeFileName?: true
-  startedAt?: true
-  completedAt?: true
-  createdAt?: true
   updatedAt?: true
+  createdAt?: true
 }
 
 export type InterviewSessionMaxAggregateInputType = {
@@ -116,12 +100,8 @@ export type InterviewSessionMaxAggregateInputType = {
   totalScore?: true
   feedback?: true
   resumeUrl?: true
-  resumeText?: true
-  resumeFileName?: true
-  startedAt?: true
-  completedAt?: true
-  createdAt?: true
   updatedAt?: true
+  createdAt?: true
 }
 
 export type InterviewSessionCountAggregateInputType = {
@@ -132,12 +112,8 @@ export type InterviewSessionCountAggregateInputType = {
   totalScore?: true
   feedback?: true
   resumeUrl?: true
-  resumeText?: true
-  resumeFileName?: true
-  startedAt?: true
-  completedAt?: true
-  createdAt?: true
   updatedAt?: true
+  createdAt?: true
   _all?: true
 }
 
@@ -235,12 +211,8 @@ export type InterviewSessionGroupByOutputType = {
   totalScore: number | null
   feedback: string | null
   resumeUrl: string | null
-  resumeText: string | null
-  resumeFileName: string | null
-  startedAt: Date | null
-  completedAt: Date | null
+  updatedAt: Date | null
   createdAt: Date
-  updatedAt: Date
   _count: InterviewSessionCountAggregateOutputType | null
   _avg: InterviewSessionAvgAggregateOutputType | null
   _sum: InterviewSessionSumAggregateOutputType | null
@@ -274,12 +246,8 @@ export type InterviewSessionWhereInput = {
   totalScore?: Prisma.FloatNullableFilter<"InterviewSession"> | number | null
   feedback?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
   resumeUrl?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  resumeText?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  resumeFileName?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  startedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
-  completedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
+  updatedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
   candidate?: Prisma.XOR<Prisma.CandidateScalarRelationFilter, Prisma.CandidateWhereInput>
   job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>
   questions?: Prisma.QuestionListRelationFilter
@@ -293,12 +261,8 @@ export type InterviewSessionOrderByWithRelationInput = {
   totalScore?: Prisma.SortOrderInput | Prisma.SortOrder
   feedback?: Prisma.SortOrderInput | Prisma.SortOrder
   resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeText?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeFileName?: Prisma.SortOrderInput | Prisma.SortOrder
-  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   candidate?: Prisma.CandidateOrderByWithRelationInput
   job?: Prisma.JobOrderByWithRelationInput
   questions?: Prisma.QuestionOrderByRelationAggregateInput
@@ -315,12 +279,8 @@ export type InterviewSessionWhereUniqueInput = Prisma.AtLeast<{
   totalScore?: Prisma.FloatNullableFilter<"InterviewSession"> | number | null
   feedback?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
   resumeUrl?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  resumeText?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  resumeFileName?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  startedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
-  completedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
+  updatedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
   candidate?: Prisma.XOR<Prisma.CandidateScalarRelationFilter, Prisma.CandidateWhereInput>
   job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>
   questions?: Prisma.QuestionListRelationFilter
@@ -334,12 +294,8 @@ export type InterviewSessionOrderByWithAggregationInput = {
   totalScore?: Prisma.SortOrderInput | Prisma.SortOrder
   feedback?: Prisma.SortOrderInput | Prisma.SortOrder
   resumeUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeText?: Prisma.SortOrderInput | Prisma.SortOrder
-  resumeFileName?: Prisma.SortOrderInput | Prisma.SortOrder
-  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   _count?: Prisma.InterviewSessionCountOrderByAggregateInput
   _avg?: Prisma.InterviewSessionAvgOrderByAggregateInput
   _max?: Prisma.InterviewSessionMaxOrderByAggregateInput
@@ -358,12 +314,8 @@ export type InterviewSessionScalarWhereWithAggregatesInput = {
   totalScore?: Prisma.FloatNullableWithAggregatesFilter<"InterviewSession"> | number | null
   feedback?: Prisma.StringNullableWithAggregatesFilter<"InterviewSession"> | string | null
   resumeUrl?: Prisma.StringNullableWithAggregatesFilter<"InterviewSession"> | string | null
-  resumeText?: Prisma.StringNullableWithAggregatesFilter<"InterviewSession"> | string | null
-  resumeFileName?: Prisma.StringNullableWithAggregatesFilter<"InterviewSession"> | string | null
-  startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"InterviewSession"> | Date | string | null
-  completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"InterviewSession"> | Date | string | null
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"InterviewSession"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InterviewSession"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"InterviewSession"> | Date | string
 }
 
 export type InterviewSessionCreateInput = {
@@ -372,12 +324,8 @@ export type InterviewSessionCreateInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   candidate: Prisma.CandidateCreateNestedOneWithoutSessionsInput
   job: Prisma.JobCreateNestedOneWithoutSessionsInput
   questions?: Prisma.QuestionCreateNestedManyWithoutSessionInput
@@ -391,12 +339,8 @@ export type InterviewSessionUncheckedCreateInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutSessionInput
 }
 
@@ -406,12 +350,8 @@ export type InterviewSessionUpdateInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   candidate?: Prisma.CandidateUpdateOneRequiredWithoutSessionsNestedInput
   job?: Prisma.JobUpdateOneRequiredWithoutSessionsNestedInput
   questions?: Prisma.QuestionUpdateManyWithoutSessionNestedInput
@@ -425,12 +365,8 @@ export type InterviewSessionUncheckedUpdateInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutSessionNestedInput
 }
 
@@ -442,12 +378,8 @@ export type InterviewSessionCreateManyInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type InterviewSessionUpdateManyMutationInput = {
@@ -456,12 +388,8 @@ export type InterviewSessionUpdateManyMutationInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewSessionUncheckedUpdateManyInput = {
@@ -472,12 +400,8 @@ export type InterviewSessionUncheckedUpdateManyInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewSessionListRelationFilter = {
@@ -498,12 +422,8 @@ export type InterviewSessionCountOrderByAggregateInput = {
   totalScore?: Prisma.SortOrder
   feedback?: Prisma.SortOrder
   resumeUrl?: Prisma.SortOrder
-  resumeText?: Prisma.SortOrder
-  resumeFileName?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrder
-  completedAt?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type InterviewSessionAvgOrderByAggregateInput = {
@@ -518,12 +438,8 @@ export type InterviewSessionMaxOrderByAggregateInput = {
   totalScore?: Prisma.SortOrder
   feedback?: Prisma.SortOrder
   resumeUrl?: Prisma.SortOrder
-  resumeText?: Prisma.SortOrder
-  resumeFileName?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrder
-  completedAt?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type InterviewSessionMinOrderByAggregateInput = {
@@ -534,12 +450,8 @@ export type InterviewSessionMinOrderByAggregateInput = {
   totalScore?: Prisma.SortOrder
   feedback?: Prisma.SortOrder
   resumeUrl?: Prisma.SortOrder
-  resumeText?: Prisma.SortOrder
-  resumeFileName?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrder
-  completedAt?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
 }
 
 export type InterviewSessionSumOrderByAggregateInput = {
@@ -671,12 +583,8 @@ export type InterviewSessionCreateWithoutCandidateInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   job: Prisma.JobCreateNestedOneWithoutSessionsInput
   questions?: Prisma.QuestionCreateNestedManyWithoutSessionInput
 }
@@ -688,12 +596,8 @@ export type InterviewSessionUncheckedCreateWithoutCandidateInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutSessionInput
 }
 
@@ -734,12 +638,8 @@ export type InterviewSessionScalarWhereInput = {
   totalScore?: Prisma.FloatNullableFilter<"InterviewSession"> | number | null
   feedback?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
   resumeUrl?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  resumeText?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  resumeFileName?: Prisma.StringNullableFilter<"InterviewSession"> | string | null
-  startedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
-  completedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
+  updatedAt?: Prisma.DateTimeNullableFilter<"InterviewSession"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InterviewSession"> | Date | string
 }
 
 export type InterviewSessionCreateWithoutJobInput = {
@@ -748,12 +648,8 @@ export type InterviewSessionCreateWithoutJobInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   candidate: Prisma.CandidateCreateNestedOneWithoutSessionsInput
   questions?: Prisma.QuestionCreateNestedManyWithoutSessionInput
 }
@@ -765,12 +661,8 @@ export type InterviewSessionUncheckedCreateWithoutJobInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutSessionInput
 }
 
@@ -806,12 +698,8 @@ export type InterviewSessionCreateWithoutQuestionsInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
   candidate: Prisma.CandidateCreateNestedOneWithoutSessionsInput
   job: Prisma.JobCreateNestedOneWithoutSessionsInput
 }
@@ -824,12 +712,8 @@ export type InterviewSessionUncheckedCreateWithoutQuestionsInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type InterviewSessionCreateOrConnectWithoutQuestionsInput = {
@@ -854,12 +738,8 @@ export type InterviewSessionUpdateWithoutQuestionsInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   candidate?: Prisma.CandidateUpdateOneRequiredWithoutSessionsNestedInput
   job?: Prisma.JobUpdateOneRequiredWithoutSessionsNestedInput
 }
@@ -872,12 +752,8 @@ export type InterviewSessionUncheckedUpdateWithoutQuestionsInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewSessionCreateManyCandidateInput = {
@@ -887,12 +763,8 @@ export type InterviewSessionCreateManyCandidateInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type InterviewSessionUpdateWithoutCandidateInput = {
@@ -901,12 +773,8 @@ export type InterviewSessionUpdateWithoutCandidateInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   job?: Prisma.JobUpdateOneRequiredWithoutSessionsNestedInput
   questions?: Prisma.QuestionUpdateManyWithoutSessionNestedInput
 }
@@ -918,12 +786,8 @@ export type InterviewSessionUncheckedUpdateWithoutCandidateInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutSessionNestedInput
 }
 
@@ -934,12 +798,8 @@ export type InterviewSessionUncheckedUpdateManyWithoutCandidateInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewSessionCreateManyJobInput = {
@@ -949,12 +809,8 @@ export type InterviewSessionCreateManyJobInput = {
   totalScore?: number | null
   feedback?: string | null
   resumeUrl?: string | null
-  resumeText?: string | null
-  resumeFileName?: string | null
-  startedAt?: Date | string | null
-  completedAt?: Date | string | null
+  updatedAt?: Date | string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type InterviewSessionUpdateWithoutJobInput = {
@@ -963,12 +819,8 @@ export type InterviewSessionUpdateWithoutJobInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   candidate?: Prisma.CandidateUpdateOneRequiredWithoutSessionsNestedInput
   questions?: Prisma.QuestionUpdateManyWithoutSessionNestedInput
 }
@@ -980,12 +832,8 @@ export type InterviewSessionUncheckedUpdateWithoutJobInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutSessionNestedInput
 }
 
@@ -996,12 +844,8 @@ export type InterviewSessionUncheckedUpdateManyWithoutJobInput = {
   totalScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resumeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  resumeFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1043,12 +887,8 @@ export type InterviewSessionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   totalScore?: boolean
   feedback?: boolean
   resumeUrl?: boolean
-  resumeText?: boolean
-  resumeFileName?: boolean
-  startedAt?: boolean
-  completedAt?: boolean
-  createdAt?: boolean
   updatedAt?: boolean
+  createdAt?: boolean
   candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
   questions?: boolean | Prisma.InterviewSession$questionsArgs<ExtArgs>
@@ -1063,12 +903,8 @@ export type InterviewSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   totalScore?: boolean
   feedback?: boolean
   resumeUrl?: boolean
-  resumeText?: boolean
-  resumeFileName?: boolean
-  startedAt?: boolean
-  completedAt?: boolean
-  createdAt?: boolean
   updatedAt?: boolean
+  createdAt?: boolean
   candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["interviewSession"]>
@@ -1081,12 +917,8 @@ export type InterviewSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   totalScore?: boolean
   feedback?: boolean
   resumeUrl?: boolean
-  resumeText?: boolean
-  resumeFileName?: boolean
-  startedAt?: boolean
-  completedAt?: boolean
-  createdAt?: boolean
   updatedAt?: boolean
+  createdAt?: boolean
   candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["interviewSession"]>
@@ -1099,15 +931,11 @@ export type InterviewSessionSelectScalar = {
   totalScore?: boolean
   feedback?: boolean
   resumeUrl?: boolean
-  resumeText?: boolean
-  resumeFileName?: boolean
-  startedAt?: boolean
-  completedAt?: boolean
-  createdAt?: boolean
   updatedAt?: boolean
+  createdAt?: boolean
 }
 
-export type InterviewSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "candidateId" | "status" | "jobId" | "totalScore" | "feedback" | "resumeUrl" | "resumeText" | "resumeFileName" | "startedAt" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["interviewSession"]>
+export type InterviewSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "candidateId" | "status" | "jobId" | "totalScore" | "feedback" | "resumeUrl" | "updatedAt" | "createdAt", ExtArgs["result"]["interviewSession"]>
 export type InterviewSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   candidate?: boolean | Prisma.CandidateDefaultArgs<ExtArgs>
   job?: boolean | Prisma.JobDefaultArgs<ExtArgs>
@@ -1138,12 +966,8 @@ export type $InterviewSessionPayload<ExtArgs extends runtime.Types.Extensions.In
     totalScore: number | null
     feedback: string | null
     resumeUrl: string | null
-    resumeText: string | null
-    resumeFileName: string | null
-    startedAt: Date | null
-    completedAt: Date | null
+    updatedAt: Date | null
     createdAt: Date
-    updatedAt: Date
   }, ExtArgs["result"]["interviewSession"]>
   composites: {}
 }
@@ -1577,12 +1401,8 @@ export interface InterviewSessionFieldRefs {
   readonly totalScore: Prisma.FieldRef<"InterviewSession", 'Float'>
   readonly feedback: Prisma.FieldRef<"InterviewSession", 'String'>
   readonly resumeUrl: Prisma.FieldRef<"InterviewSession", 'String'>
-  readonly resumeText: Prisma.FieldRef<"InterviewSession", 'String'>
-  readonly resumeFileName: Prisma.FieldRef<"InterviewSession", 'String'>
-  readonly startedAt: Prisma.FieldRef<"InterviewSession", 'DateTime'>
-  readonly completedAt: Prisma.FieldRef<"InterviewSession", 'DateTime'>
-  readonly createdAt: Prisma.FieldRef<"InterviewSession", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"InterviewSession", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"InterviewSession", 'DateTime'>
 }
     
 

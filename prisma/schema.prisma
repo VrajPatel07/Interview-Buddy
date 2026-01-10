@@ -4,14 +4,17 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
 }
 
+
 datasource db {
   provider = "postgresql"
 }
+
 
 enum Difficulty {
   EASY
@@ -19,11 +22,13 @@ enum Difficulty {
   HARD
 }
 
+
 enum JobStatus {
   DRAFT
   STARTED
   COMPLETED
 }
+
 
 enum SessionStatus {
   WAITING
@@ -31,7 +36,9 @@ enum SessionStatus {
   COMPLETED
 }
 
+
 model Candidate {
+
   id       String  @id @default(cuid())
   name     String
   email    String  @unique
@@ -42,9 +49,11 @@ model Candidate {
   updatedAt DateTime @updatedAt
 
   sessions InterviewSession[]
+
 }
 
 model Company {
+
   id          String  @id @default(cuid())
   name        String
   email       String  @unique
@@ -57,9 +66,11 @@ model Company {
   updatedAt DateTime @updatedAt
 
   jobs Job[]
+
 }
 
 model Job {
+
   id          String  @id @default(cuid())
   title       String
   description String
@@ -76,9 +87,12 @@ model Job {
   updatedAt DateTime @updatedAt
 
   sessions InterviewSession[]
+
 }
 
+
 model InterviewSession {
+
   id String @id @default(cuid())
 
   candidateId String
@@ -93,22 +107,20 @@ model InterviewSession {
   feedback   String?
 
   resumeUrl      String?
-  resumeText     String?
-  resumeFileName String?
 
-  startedAt   DateTime?
-  completedAt DateTime?
-
+  updatedAt DateTime?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   questions Question[]
 
   @@index([candidateId])
   @@index([jobId])
+
 }
 
+
 model Question {
+
   id String @id @default(cuid())
 
   sessionId String
@@ -120,10 +132,10 @@ model Question {
   timeLimit  Int
 
   answerText String? @db.Text
-  score      Float?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([sessionId])
+
 }

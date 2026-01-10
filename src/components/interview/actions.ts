@@ -51,7 +51,6 @@ export async function finishInterview(sessionId: string) {
             where: { id: sessionId },
             data: {
                 status: "COMPLETED",
-                completedAt: new Date(),
                 totalScore: gradingResult.totalScore,
                 feedback: gradingResult.feedback
             },

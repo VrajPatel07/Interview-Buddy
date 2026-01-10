@@ -29,13 +29,11 @@ export type AggregateQuestion = {
 export type QuestionAvgAggregateOutputType = {
   orderIndex: number | null
   timeLimit: number | null
-  score: number | null
 }
 
 export type QuestionSumAggregateOutputType = {
   orderIndex: number | null
   timeLimit: number | null
-  score: number | null
 }
 
 export type QuestionMinAggregateOutputType = {
@@ -46,7 +44,6 @@ export type QuestionMinAggregateOutputType = {
   orderIndex: number | null
   timeLimit: number | null
   answerText: string | null
-  score: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -59,7 +56,6 @@ export type QuestionMaxAggregateOutputType = {
   orderIndex: number | null
   timeLimit: number | null
   answerText: string | null
-  score: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,7 +68,6 @@ export type QuestionCountAggregateOutputType = {
   orderIndex: number
   timeLimit: number
   answerText: number
-  score: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -82,13 +77,11 @@ export type QuestionCountAggregateOutputType = {
 export type QuestionAvgAggregateInputType = {
   orderIndex?: true
   timeLimit?: true
-  score?: true
 }
 
 export type QuestionSumAggregateInputType = {
   orderIndex?: true
   timeLimit?: true
-  score?: true
 }
 
 export type QuestionMinAggregateInputType = {
@@ -99,7 +92,6 @@ export type QuestionMinAggregateInputType = {
   orderIndex?: true
   timeLimit?: true
   answerText?: true
-  score?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,7 +104,6 @@ export type QuestionMaxAggregateInputType = {
   orderIndex?: true
   timeLimit?: true
   answerText?: true
-  score?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -125,7 +116,6 @@ export type QuestionCountAggregateInputType = {
   orderIndex?: true
   timeLimit?: true
   answerText?: true
-  score?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -225,7 +215,6 @@ export type QuestionGroupByOutputType = {
   orderIndex: number
   timeLimit: number
   answerText: string | null
-  score: number | null
   createdAt: Date
   updatedAt: Date
   _count: QuestionCountAggregateOutputType | null
@@ -261,7 +250,6 @@ export type QuestionWhereInput = {
   orderIndex?: Prisma.IntFilter<"Question"> | number
   timeLimit?: Prisma.IntFilter<"Question"> | number
   answerText?: Prisma.StringNullableFilter<"Question"> | string | null
-  score?: Prisma.FloatNullableFilter<"Question"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   session?: Prisma.XOR<Prisma.InterviewSessionScalarRelationFilter, Prisma.InterviewSessionWhereInput>
@@ -275,7 +263,6 @@ export type QuestionOrderByWithRelationInput = {
   orderIndex?: Prisma.SortOrder
   timeLimit?: Prisma.SortOrder
   answerText?: Prisma.SortOrderInput | Prisma.SortOrder
-  score?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   session?: Prisma.InterviewSessionOrderByWithRelationInput
@@ -292,7 +279,6 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<{
   orderIndex?: Prisma.IntFilter<"Question"> | number
   timeLimit?: Prisma.IntFilter<"Question"> | number
   answerText?: Prisma.StringNullableFilter<"Question"> | string | null
-  score?: Prisma.FloatNullableFilter<"Question"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   session?: Prisma.XOR<Prisma.InterviewSessionScalarRelationFilter, Prisma.InterviewSessionWhereInput>
@@ -306,7 +292,6 @@ export type QuestionOrderByWithAggregationInput = {
   orderIndex?: Prisma.SortOrder
   timeLimit?: Prisma.SortOrder
   answerText?: Prisma.SortOrderInput | Prisma.SortOrder
-  score?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.QuestionCountOrderByAggregateInput
@@ -327,7 +312,6 @@ export type QuestionScalarWhereWithAggregatesInput = {
   orderIndex?: Prisma.IntWithAggregatesFilter<"Question"> | number
   timeLimit?: Prisma.IntWithAggregatesFilter<"Question"> | number
   answerText?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
-  score?: Prisma.FloatNullableWithAggregatesFilter<"Question"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Question"> | Date | string
 }
@@ -339,7 +323,6 @@ export type QuestionCreateInput = {
   orderIndex: number
   timeLimit: number
   answerText?: string | null
-  score?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   session: Prisma.InterviewSessionCreateNestedOneWithoutQuestionsInput
@@ -353,7 +336,6 @@ export type QuestionUncheckedCreateInput = {
   orderIndex: number
   timeLimit: number
   answerText?: string | null
-  score?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -365,7 +347,6 @@ export type QuestionUpdateInput = {
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimit?: Prisma.IntFieldUpdateOperationsInput | number
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   session?: Prisma.InterviewSessionUpdateOneRequiredWithoutQuestionsNestedInput
@@ -379,7 +360,6 @@ export type QuestionUncheckedUpdateInput = {
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimit?: Prisma.IntFieldUpdateOperationsInput | number
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -392,7 +372,6 @@ export type QuestionCreateManyInput = {
   orderIndex: number
   timeLimit: number
   answerText?: string | null
-  score?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -404,7 +383,6 @@ export type QuestionUpdateManyMutationInput = {
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimit?: Prisma.IntFieldUpdateOperationsInput | number
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -417,7 +395,6 @@ export type QuestionUncheckedUpdateManyInput = {
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimit?: Prisma.IntFieldUpdateOperationsInput | number
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -440,7 +417,6 @@ export type QuestionCountOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
   timeLimit?: Prisma.SortOrder
   answerText?: Prisma.SortOrder
-  score?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -448,7 +424,6 @@ export type QuestionCountOrderByAggregateInput = {
 export type QuestionAvgOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
   timeLimit?: Prisma.SortOrder
-  score?: Prisma.SortOrder
 }
 
 export type QuestionMaxOrderByAggregateInput = {
@@ -459,7 +434,6 @@ export type QuestionMaxOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
   timeLimit?: Prisma.SortOrder
   answerText?: Prisma.SortOrder
-  score?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -472,7 +446,6 @@ export type QuestionMinOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
   timeLimit?: Prisma.SortOrder
   answerText?: Prisma.SortOrder
-  score?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -480,7 +453,6 @@ export type QuestionMinOrderByAggregateInput = {
 export type QuestionSumOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
   timeLimit?: Prisma.SortOrder
-  score?: Prisma.SortOrder
 }
 
 export type QuestionCreateNestedManyWithoutSessionInput = {
@@ -544,7 +516,6 @@ export type QuestionCreateWithoutSessionInput = {
   orderIndex: number
   timeLimit: number
   answerText?: string | null
-  score?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -556,7 +527,6 @@ export type QuestionUncheckedCreateWithoutSessionInput = {
   orderIndex: number
   timeLimit: number
   answerText?: string | null
-  score?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -598,7 +568,6 @@ export type QuestionScalarWhereInput = {
   orderIndex?: Prisma.IntFilter<"Question"> | number
   timeLimit?: Prisma.IntFilter<"Question"> | number
   answerText?: Prisma.StringNullableFilter<"Question"> | string | null
-  score?: Prisma.FloatNullableFilter<"Question"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
 }
@@ -610,7 +579,6 @@ export type QuestionCreateManySessionInput = {
   orderIndex: number
   timeLimit: number
   answerText?: string | null
-  score?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -622,7 +590,6 @@ export type QuestionUpdateWithoutSessionInput = {
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimit?: Prisma.IntFieldUpdateOperationsInput | number
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -634,7 +601,6 @@ export type QuestionUncheckedUpdateWithoutSessionInput = {
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimit?: Prisma.IntFieldUpdateOperationsInput | number
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -646,7 +612,6 @@ export type QuestionUncheckedUpdateManyWithoutSessionInput = {
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimit?: Prisma.IntFieldUpdateOperationsInput | number
   answerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -661,7 +626,6 @@ export type QuestionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   orderIndex?: boolean
   timeLimit?: boolean
   answerText?: boolean
-  score?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   session?: boolean | Prisma.InterviewSessionDefaultArgs<ExtArgs>
@@ -675,7 +639,6 @@ export type QuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   orderIndex?: boolean
   timeLimit?: boolean
   answerText?: boolean
-  score?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   session?: boolean | Prisma.InterviewSessionDefaultArgs<ExtArgs>
@@ -689,7 +652,6 @@ export type QuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   orderIndex?: boolean
   timeLimit?: boolean
   answerText?: boolean
-  score?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   session?: boolean | Prisma.InterviewSessionDefaultArgs<ExtArgs>
@@ -703,12 +665,11 @@ export type QuestionSelectScalar = {
   orderIndex?: boolean
   timeLimit?: boolean
   answerText?: boolean
-  score?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sessionId" | "content" | "difficulty" | "orderIndex" | "timeLimit" | "answerText" | "score" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
+export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sessionId" | "content" | "difficulty" | "orderIndex" | "timeLimit" | "answerText" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
 export type QuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   session?: boolean | Prisma.InterviewSessionDefaultArgs<ExtArgs>
 }
@@ -732,7 +693,6 @@ export type $QuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     orderIndex: number
     timeLimit: number
     answerText: string | null
-    score: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["question"]>
@@ -1166,7 +1126,6 @@ export interface QuestionFieldRefs {
   readonly orderIndex: Prisma.FieldRef<"Question", 'Int'>
   readonly timeLimit: Prisma.FieldRef<"Question", 'Int'>
   readonly answerText: Prisma.FieldRef<"Question", 'String'>
-  readonly score: Prisma.FieldRef<"Question", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Question", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Question", 'DateTime'>
 }

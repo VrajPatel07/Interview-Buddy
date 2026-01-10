@@ -869,12 +869,8 @@ export const InterviewSessionScalarFieldEnum = {
   totalScore: 'totalScore',
   feedback: 'feedback',
   resumeUrl: 'resumeUrl',
-  resumeText: 'resumeText',
-  resumeFileName: 'resumeFileName',
-  startedAt: 'startedAt',
-  completedAt: 'completedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
 } as const
 
 export type InterviewSessionScalarFieldEnum = (typeof InterviewSessionScalarFieldEnum)[keyof typeof InterviewSessionScalarFieldEnum]
@@ -888,7 +884,6 @@ export const QuestionScalarFieldEnum = {
   orderIndex: 'orderIndex',
   timeLimit: 'timeLimit',
   answerText: 'answerText',
-  score: 'score',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
