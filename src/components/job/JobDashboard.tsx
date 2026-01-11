@@ -358,23 +358,6 @@ export default function JobDashboard({ jobTitle, sessions }: JobDashboardProps) 
                     </div>
                 </DialogContent>
             </Dialog>
-
-            <style jsx global>{`
-                .custom-scrollbar::-webkit-scrollbar {
-                    width: 8px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-track {
-                    background: rgba(39, 39, 42, 0.3);
-                    border-radius: 4px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: rgba(113, 113, 122, 0.5);
-                    border-radius: 4px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background: rgba(113, 113, 122, 0.7);
-                }
-            `}</style>
         </div>
     );
 }

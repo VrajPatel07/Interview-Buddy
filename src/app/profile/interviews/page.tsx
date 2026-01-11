@@ -3,19 +3,17 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
-import { Briefcase, Building2, FileText, MessageSquare, Clock, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import { Briefcase, Building2, FileText, Clock, CheckCircle2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 
 
 const getStatusStyles = (status: string) => {
     switch (status.toUpperCase()) {
-        case "COMPLETED" : return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20";
+        case "COMPLETED": return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20";
         case "IN_PROGRESS":
-        case "WAITING" : return "bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20";
-        default : return "bg-zinc-800 text-zinc-400 border-zinc-700 hover:bg-zinc-700";
+        case "WAITING": return "bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20";
+        default: return "bg-zinc-800 text-zinc-400 border-zinc-700 hover:bg-zinc-700";
     }
 };
 
@@ -92,100 +90,67 @@ export default async function CandidateInterviews() {
                                         </Card>
                                     </DialogTrigger>
 
-                                    <DialogContent className="max-w-2xl max-h-[85vh] bg-zinc-950 border-zinc-800 text-zinc-100 p-0 overflow-hidden">
-
-                                        <DialogHeader className="p-6 pb-2 border-b border-zinc-800/50 bg-zinc-900/50">
-                                            <DialogTitle className="text-xl flex items-center gap-2">
+                                    <DialogContent className="max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col bg-zinc-900 border-zinc-800 text-white">
+                                        <DialogHeader className="pb-4 border-b border-zinc-800/50">
+                                            <DialogTitle className="text-2xl font-bold text-white flex items-center gap-3">
                                                 {session.job.title}
                                                 <Badge variant="outline" className={cn("ml-2 text-xs font-normal", getStatusStyles(session.status))}>
                                                     {session.status}
                                                 </Badge>
                                             </DialogTitle>
-                                            <DialogDescription className="text-zinc-400 flex items-center gap-2">
-                                                <Building2 className="w-4 h-4" /> {session.job.company.name}
-                                            </DialogDescription>
                                         </DialogHeader>
 
-                                        <ScrollArea className="h-full max-h-[60vh] px-6 py-4">
-                                            <div className="space-y-8">
-                                                {/* Job Description */}
-                                                <section className="space-y-3">
-                                                    <h3 className="text-sm font-semibold text-zinc-100 uppercase tracking-wider flex items-center gap-2">
-                                                        <Briefcase className="w-4 h-4 text-indigo-400" />
-                                                        Job Description
-                                                    </h3>
-                                                    <ScrollArea className="h-auto max-h-48 bg-zinc-900/50 rounded-lg border border-zinc-800">
-                                                        <div className="p-4 text-sm text-zinc-400 leading-relaxed">
-                                                            {session.job.description}
-                                                        </div>
-                                                    </ScrollArea>
-                                                </section>
+                                        <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                                            <div>
+                                                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                                                    <div className="w-1 h-5 bg-indigo-500 rounded-full" />
+                                                    Q&A Transcript
+                                                </h3>
 
-                                                {/* Q&A Section */}
-                                                <section className="space-y-3">
-                                                    <h3 className="text-sm font-semibold text-zinc-100 uppercase tracking-wider flex items-center gap-2">
-                                                        <MessageSquare className="w-4 h-4 text-indigo-400" />
-                                                        Interview Q&A
-                                                    </h3>
-                                                    <Accordion type="single" collapsible className="w-full">
-                                                        {session.questions.map((question, index) => (
-                                                            <AccordionItem key={question.id} value={question.id} className="border-zinc-800">
-                                                                <AccordionTrigger className="text-sm text-zinc-300 hover:text-indigo-400 hover:no-underline py-3 items-start">
-                                                                    <span className="flex gap-2 text-left pr-4">
-                                                                        <span className="text-zinc-500 font-mono shrink-0">{(index + 1).toString().padStart(2, '0')}.</span>
-                                                                        <span className="wrap-break-words">{question.content}</span>
-                                                                    </span>
+                                                <Accordion type="single" collapsible className="w-full space-y-3">
+                                                    {session.questions.length > 0 ? (
+                                                        session.questions.map((q, index) => (
+                                                            <AccordionItem
+                                                                key={q.id}
+                                                                value={`item-${index}`}
+                                                                className="border border-zinc-800 rounded-xl overflow-hidden bg-zinc-900/30 backdrop-blur-sm hover:border-zinc-700 transition-colors"
+                                                            >
+                                                                <AccordionTrigger className="px-5 py-4 text-left hover:no-underline hover:bg-zinc-900/50 transition-colors group">
+                                                                    <div className="flex gap-3 w-full">
+                                                                        <span className="font-bold text-indigo-400 shrink-0 text-sm">
+                                                                            Q{index + 1}.
+                                                                        </span>
+                                                                        <span className="text-muted-foreground wrap-break-word break-all text-sm leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                                                                            {q.content}
+                                                                        </span>
+                                                                    </div>
                                                                 </AccordionTrigger>
-                                                                <AccordionContent className="bg-zinc-900/30 rounded-md p-4 mb-2 border border-zinc-800/50">
-                                                                    <div className="space-y-3">
-                                                                        <div>
-                                                                            <span className="text-xs font-medium text-indigo-400 block mb-1">Your Answer:</span>
-                                                                            <ScrollArea className="h-auto max-h-32">
-                                                                                <p className="text-zinc-300 text-sm leading-relaxed pr-4">
-                                                                                    {question.answerText || <span className="text-zinc-600 italic">No answer recorded</span>}
-                                                                                </p>
-                                                                            </ScrollArea>
-                                                                        </div>
+
+                                                                <AccordionContent className="px-5 py-4 bg-zinc-950/30 border-t border-zinc-800/50">
+                                                                    <div className="space-y-4">
+                                                                        {q.answerText ? (
+                                                                            <div className="text-muted-foreground wrap-break-word break-all text-sm leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                                                                                {q.answerText}
+                                                                            </div>
+                                                                        ) : (
+                                                                            <span className="italic text-zinc-600 text-sm">
+                                                                                No answer provided.
+                                                                            </span>
+                                                                        )}
                                                                     </div>
                                                                 </AccordionContent>
                                                             </AccordionItem>
-                                                        ))}
-                                                    </Accordion>
-                                                </section>
-
-                                                {/* Feedback Section */}
-                                                {session.feedback && (
-                                                    <section className="space-y-3">
-                                                        <h3 className="text-sm font-semibold text-zinc-100 uppercase tracking-wider flex items-center gap-2">
-                                                            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                                                            Feedback
-                                                        </h3>
-                                                        <div className="bg-emerald-950/10 border border-emerald-500/20 rounded-lg p-4">
-                                                            <p className="text-sm text-zinc-300 leading-relaxed">
-                                                                {session.feedback}
-                                                            </p>
+                                                        ))
+                                                    ) : (
+                                                        <div className="p-8 text-center text-zinc-500 bg-zinc-900/30 rounded-xl border border-zinc-800/50">
+                                                            <FileText className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                                                            <p className="font-medium">No questions recorded for this session.</p>
                                                         </div>
-                                                    </section>
-                                                )}
+                                                    )}
+                                                </Accordion>
                                             </div>
-                                        </ScrollArea>
-
-                                        <div className="p-2 border-t border-zinc-800/50 bg-zinc-900/50 flex justify-end gap-3">
-                                            {session.resumeUrl && (
-                                                <Button
-                                                    asChild
-                                                    className="bg-indigo-600 cursor-pointer hover:bg-indigo-500 text-white shadow-[0_0_20px_-5px_rgba(79,70,229,0.3)] transition-all"
-                                                >
-                                                    <a href={session.resumeUrl} target="_blank" rel="noopener noreferrer">
-                                                        <FileText className="w-4 h-4 mr-2" />
-                                                        View Resume
-                                                    </a>
-                                                </Button>
-                                            )}
                                         </div>
-
                                     </DialogContent>
-
                                 </Dialog>
 
                             ))}
