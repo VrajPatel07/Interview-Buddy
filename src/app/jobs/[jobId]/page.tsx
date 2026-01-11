@@ -45,7 +45,7 @@ export default async function JobPage({ params }: { params: Promise<{ jobId: str
     }
 
     return (
-        <main className="container mx-auto py-10 min-h-screen">
+        <main className="container mx-auto min-h-screen">
             <JobDashboard
                 jobTitle={job.title}
                 jobDescription={job.description}
