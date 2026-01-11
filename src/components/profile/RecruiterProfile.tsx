@@ -62,12 +62,6 @@ export default function RecruiterProfile({ recruiter }: { recruiter: RecruiterSc
                                 </Link>
                             )}
                         </div>
-
-                        {recruiter.description && (
-                            <p className="mt-4 text-zinc-400 text-sm leading-relaxed border-l-2 border-zinc-800 pl-4">
-                                {recruiter.description}
-                            </p>
-                        )}
                     </div>
 
                     <div className="grid gap-4 pt-6 border-t border-zinc-800/50">

@@ -224,60 +224,111 @@ export default function JobDashboard({ jobTitle, jobDescription, sessions }: Job
             </div>
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-                    <DialogHeader>
-                        <DialogTitle className="text-2xl">Interview Details</DialogTitle>
-                        <DialogDescription>
-                            Reviewing session for <span className="font-semibold text-foreground">{selectedSession?.candidate.name}</span>
+                <DialogContent className="max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+                    {/* Header */}
+                    <DialogHeader className="pb-2 border-b">
+                        <DialogTitle className="text-2xl font-semibold">
+                            Interview Details
+                        </DialogTitle>
+                        <DialogDescription className="text-sm">
+                            Reviewing session for{" "}
+                            <span className="font-semibold text-foreground">
+                                {selectedSession?.candidate.name}
+                            </span>
                         </DialogDescription>
                     </DialogHeader>
 
-                    {selectedSession && (
-                        <div className="mt-4 space-y-4">
-                            <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
-                                <div className="flex items-center gap-2">
-                                    <Star className="h-4 w-4 text-yellow-500" />
-                                    <span className="font-medium">Total Score: {selectedSession.totalScore ?? "N/A"}</span>
+                    {/* Scrollable Content */}
+                    <div className="flex-1 overflow-y-auto pr-1">
+                        {selectedSession && (
+                            <div className="mt-4 space-y-6">
+                                {/* Summary Card */}
+                                <div className="flex flex-wrap items-center gap-4 p-4 bg-muted/50 rounded-lg">
+                                    <div className="flex items-center gap-2">
+                                        <Star className="h-4 w-4 text-yellow-500 shrink-0" />
+                                        <span className="font-medium">
+                                            Total Score: {selectedSession.totalScore ?? "N/A"}
+                                        </span>
+                                    </div>
+
+                                    {selectedSession.resumeUrl && (
+                                        <a
+                                            href={selectedSession.resumeUrl}
+                                            target="_blank"
+                                            className="flex items-center gap-2 text-primary hover:underline"
+                                        >
+                                            <ExternalLink className="h-4 w-4 shrink-0" />
+                                            View Resume
+                                        </a>
+                                    )}
                                 </div>
-                                {selectedSession.resumeUrl && (
-                                    <a href={selectedSession.resumeUrl} target="_blank" className="flex items-center gap-2 text-primary hover:underline">
-                                        <ExternalLink className="h-4 w-4" /> View Resume
-                                    </a>
-                                )}
-                            </div>
 
-                            <h3 className="text-lg font-semibold mt-6">Q&A Transcript</h3>
+                                {/* Q&A Section */}
+                                <h3 className="text-lg font-semibold">Q&A Transcript</h3>
 
-                            <Accordion type="single" collapsible className="w-full">
-                                {selectedSession.questions.length > 0 ? (
-                                    selectedSession.questions.map((q, index) => (
-                                        <AccordionItem key={q.id} value={`item-${index}`}>
-                                            <AccordionTrigger className="text-left hover:no-underline hover:bg-muted/50 px-2 rounded">
-                                                <div className="flex gap-2">
-                                                    <span className="font-bold text-muted-foreground">Q{index + 1}.</span>
-                                                    <span className="text-muted-foreground text-lg max-h-32 overflow-y-auto wrap-break-word">{q.content}</span>
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent className="p-4 bg-muted/20 rounded-b text-base whitespace-pre-wrap">
-                                                {q.answerText ? (
-                                                    <div className="text-muted-foreground text-lg max-h-32 overflow-y-auto wrap-break-word">
-                                                        {q.answerText}
+                                <Accordion type="single" collapsible className="w-full space-y-2">
+                                    {selectedSession.questions.length > 0 ? (
+                                        selectedSession.questions.map((q, index) => (
+                                            <AccordionItem
+                                                key={q.id}
+                                                value={`item-${index}`}
+                                                className="border rounded-lg overflow-hidden"
+                                            >
+                                                {/* Question */}
+                                                <AccordionTrigger className="px-4 py-3 text-left hover:no-underline hover:bg-muted/50">
+                                                    <div className="flex gap-2 w-full">
+                                                        <span className="font-bold text-muted-foreground shrink-0">
+                                                            Q{index + 1}.
+                                                        </span>
+                                                        <span
+                                                            className="
+                                                    text-muted-foreground text-base
+                                                    wrap-break-word break-all
+                                                    line-clamp-3
+                                                "
+                                                        >
+                                                            {q.content}
+                                                        </span>
                                                     </div>
-                                                ) : (
-                                                    <span className="italic text-muted-foreground">No answer provided.</span>
-                                                )}
-                                                <div className="mt-2 flex gap-2">
-                                                    <Badge variant="outline" className="text-xs">{q.difficulty}</Badge>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    ))
-                                ) : (
-                                    <div className="p-4 text-center text-muted-foreground">No questions recorded for this session.</div>
-                                )}
-                            </Accordion>
-                        </div>
-                    )}
+                                                </AccordionTrigger>
+
+                                                {/* Answer */}
+                                                <AccordionContent className="px-4 py-4 bg-muted/20 space-y-3">
+                                                    {q.answerText ? (
+                                                        <div
+                                                            className="
+                                                    text-muted-foreground text-sm
+                                                    whitespace-pre-wrap
+                                                    wrap-break-word break-all
+                                                    max-h-40 overflow-y-auto
+                                                    pr-2
+                                                "
+                                                        >
+                                                            {q.answerText}
+                                                        </div>
+                                                    ) : (
+                                                        <span className="italic text-muted-foreground text-sm">
+                                                            No answer provided.
+                                                        </span>
+                                                    )}
+
+                                                    <div className="flex gap-2">
+                                                        <Badge variant="outline" className="text-xs">
+                                                            {q.difficulty}
+                                                        </Badge>
+                                                    </div>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        ))
+                                    ) : (
+                                        <div className="p-4 text-center text-muted-foreground">
+                                            No questions recorded for this session.
+                                        </div>
+                                    )}
+                                </Accordion>
+                            </div>
+                        )}
+                    </div>
                 </DialogContent>
             </Dialog>
 
